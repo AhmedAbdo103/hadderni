@@ -38,7 +38,11 @@ jobs:
           npm install @capacitor/core @capacitor/cli @capacitor/android
           npx cap init "حضّرني" "com.newstep.hadderni" --web-dir=www
           npx cap add android
+      - name: Install Capacitor Assets
+        run: npm install -D @capacitor/assets
 
+      - name: Generate Android App Icons
+        run: npx capacitor-assets generate --android
       - name: Configure Android SDK
         run: |
           SDK_DIR="/usr/local/lib/android/sdk"
