@@ -1,0 +1,3079 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl" class="">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>حضّرني | لجنة الدعم والمساعدة ومسجل الأسماء - NEW STEP</title>
+
+  <!-- Google Fonts: Cairo -->
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;500;600;700;800;900&display=swap" rel="stylesheet" />
+
+  <!-- Tailwind CSS -->
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script>
+    tailwind.config = {
+      darkMode: 'class',
+      theme: {
+        extend: {
+          fontFamily: {
+            sans: ['Cairo', 'sans-serif'],
+          },
+          colors: {
+            brand: {
+              dark: '#0E2B38',
+              deeper: '#081A22',
+              light: '#163F52',
+              sky: '#9BD2DD',
+              glow: '#B8F6FF',
+              gold: '#D4AF37',
+              soft: '#F4F8FA'
+            }
+          }
+        }
+      }
+    };
+  </script>
+
+  <!-- Lucide Icons -->
+  <script src="https://unpkg.com/lucide@latest"></script>
+
+  <!-- QRCode.js -->
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/qrcodejs/1.0.0/qrcode.min.js"></script>
+
+  <!-- html5-qrcode -->
+  <script src="https://unpkg.com/html5-qrcode@2.3.8/html5-qrcode.min.js"></script>
+
+  <!-- SheetJS (xlsx) -->
+  <script src="https://cdn.sheetjs.com/xlsx-0.20.2/package/dist/xlsx.full.min.js"></script>
+
+  <style>
+    body {
+      font-family: 'Cairo', sans-serif;
+      overflow-x: hidden;
+      transition: background-color 0.25s ease, color 0.25s ease;
+    }
+
+    ::-webkit-scrollbar {
+      width: 6px;
+      height: 6px;
+    }
+    ::-webkit-scrollbar-track {
+      background: rgba(14, 43, 56, 0.06);
+    }
+    ::-webkit-scrollbar-thumb {
+      background: #0E2B38;
+      border-radius: 9999px;
+    }
+    .dark ::-webkit-scrollbar-thumb {
+      background: #9BD2DD;
+    }
+
+    /* Square Menu Cards */
+    .menu-square {
+      transition: transform 0.22s cubic-bezier(0.34, 1.56, 0.64, 1), box-shadow 0.22s ease, border-color 0.22s ease;
+    }
+    .menu-square:hover {
+      transform: translateY(-4px);
+      box-shadow: 0 20px 30px -12px rgba(14, 43, 56, 0.22);
+    }
+    .dark .menu-square:hover {
+      box-shadow: 0 20px 30px -12px rgba(155, 210, 221, 0.16);
+    }
+    .menu-square:active {
+      transform: scale(0.98);
+    }
+
+    /* QR Scanner Styling */
+    #qr-reader {
+      border: none !important;
+      border-radius: 1rem;
+      overflow: hidden;
+    }
+    #qr-reader video {
+      border-radius: 0.75rem;
+      object-fit: cover;
+    }
+    #qr-reader__dashboard_section_csr button {
+      background-color: #0E2B38 !important;
+      color: #9BD2DD !important;
+      padding: 0.5rem 1rem !important;
+      border-radius: 0.75rem !important;
+      font-family: 'Cairo', sans-serif !important;
+      font-weight: 700 !important;
+    }
+  </style>
+</head>
+<body class="min-h-screen flex flex-col justify-between bg-brand-soft text-brand-dark dark:bg-brand-deeper dark:text-gray-100 selection:bg-brand-sky selection:text-brand-dark">
+
+  <!-- Toast Container -->
+  <div id="toast-container" class="fixed top-4 left-4 z-50 flex flex-col gap-2 max-w-sm w-full pointer-events-none"></div>
+
+  <!-- ===================================================================== -->
+  <!-- CLEAN & ELEGANT HEADER (HADDERNI LOGO ONLY)                           -->
+  <!-- ===================================================================== -->
+  <header class="bg-brand-dark text-white shadow-lg sticky top-0 z-40 border-b-4 border-brand-sky">
+    <div class="max-w-7xl mx-auto px-4 py-3 flex flex-col lg:flex-row items-center justify-between gap-3">
+      
+      <!-- Hadderni Official Logo + Team & Committee Subtitle -->
+      <div class="flex items-center justify-between w-full lg:w-auto gap-3">
+        <div onclick="exitToHome()" class="flex items-center gap-3 cursor-pointer group" title="الرئيسية">
+          <!-- Exact Hadderni Logo SVG (White Open Square + #9BD2DD Checkmark on #0E2B38) -->
+          <div class="w-12 h-12 sm:w-14 sm:h-14 rounded-2xl bg-[#0E2B38] p-1 border-2 border-brand-sky/70 shadow-md flex items-center justify-center shrink-0 group-hover:scale-105 transition">
+            <svg viewBox="0 0 100 100" class="w-full h-full" xmlns="http://www.w3.org/2000/svg">
+              <rect x="0" y="0" width="100" height="100" rx="18" fill="#0E2B38"/>
+              <!-- White Open Square (Open at top-right corner) -->
+              <path d="M56 18H24C19.5817 18 16 21.5817 16 26V76C16 80.4183 19.5817 84 24 84H74C78.4183 84 82 80.4183 82 76V52" fill="none" stroke="#FFFFFF" stroke-width="7.5" stroke-linecap="round" stroke-linejoin="round"/>
+              <!-- Turquoise Checkmark extending past top-right -->
+              <path d="M29 48L46 65L91 19" fill="none" stroke="#9BD2DD" stroke-width="10.5" stroke-linecap="round" stroke-linejoin="round"/>
+            </svg>
+          </div>
+
+          <div>
+            <div class="flex items-center gap-2">
+              <h1 class="text-xl sm:text-2xl font-black tracking-tight text-white">حضّرني</h1>
+              <span class="text-[10px] font-black px-2 py-0.5 rounded-full bg-brand-sky text-brand-dark uppercase tracking-wider">Hadderni</span>
+            </div>
+            <p class="text-[11px] sm:text-xs text-brand-sky font-bold">فريق نيو ستيب | لجنة الدعم والمساعدة ومسجل الأسماء</p>
+          </div>
+        </div>
+      </div>
+
+      <!-- Right Controls: Active Event Selector + Multi-Active Filter + Theme Toggle + Exit to Home -->
+      <div class="flex flex-wrap items-center justify-end gap-2 w-full lg:w-auto">
+        <div class="flex items-center gap-1.5 bg-brand-light px-3 py-1.5 rounded-2xl border border-brand-sky/40 flex-1 sm:flex-initial">
+          <i data-lucide="calendar-check" class="w-4 h-4 text-brand-sky shrink-0"></i>
+          <select id="active-event-select" onchange="handleActiveEventChange(this.value)" class="w-full sm:w-52 bg-transparent text-white text-xs sm:text-sm font-bold focus:outline-none cursor-pointer">
+          </select>
+          <button type="button" onclick="openMultiEventFilterModal()" title="تنشيط وعرض عدة فعاليات معاً" class="bg-brand-sky/20 hover:bg-brand-sky text-brand-glow hover:text-brand-dark text-[11px] font-extrabold px-2.5 py-1 rounded-xl transition cursor-pointer shrink-0">
+            النشطة (<span id="active-events-count-pill">1</span>)
+          </button>
+        </div>
+
+        <button onclick="toggleDarkMode()" title="الوضع الليلي / النهاري" class="p-2.5 rounded-2xl bg-brand-light hover:bg-brand-sky text-brand-glow hover:text-brand-dark border border-brand-sky/30 transition cursor-pointer">
+          <i id="theme-icon-moon" data-lucide="moon" class="w-4 h-4"></i>
+          <i id="theme-icon-sun" data-lucide="sun" class="w-4 h-4 hidden"></i>
+        </button>
+
+        <button id="exit-to-home-btn" onclick="exitToHome()" class="hidden items-center gap-1.5 bg-rose-600 hover:bg-rose-700 text-white font-black text-xs sm:text-sm px-4 py-2.5 rounded-2xl shadow-lg border border-rose-400/50 transition cursor-pointer">
+          <i data-lucide="log-out" class="w-4 h-4"></i>
+          <span>خروج للقائمة الرئيسية</span>
+        </button>
+      </div>
+    </div>
+
+    <!-- Active Event Info Ribbon -->
+    <div id="active-event-banner" class="bg-brand-deeper/95 border-t border-white/10 px-4 py-1.5 text-xs"></div>
+  </header>
+
+  <!-- ===================================================================== -->
+  <!-- MAIN CONTENT                                                          -->
+  <!-- ===================================================================== -->
+  <main class="flex-1 max-w-6xl w-full mx-auto px-4 py-6">
+
+    <!-- =================================================================== -->
+    <!-- HOME SCREEN: WELCOME + 5 SQUARE TILES + SMART SYNC/EXPORT BAR       -->
+    <!-- =================================================================== -->
+    <section id="section-home" class="space-y-6">
+      
+      <!-- Welcome Hero Card -->
+      <div class="bg-gradient-to-l from-brand-dark via-brand-light to-brand-dark rounded-3xl p-6 sm:p-7 text-white shadow-xl border-2 border-brand-sky/40 flex flex-col md:flex-row items-center justify-between gap-4">
+        <div class="text-center md:text-right space-y-1.5">
+          <div class="inline-flex items-center gap-2 bg-brand-sky/20 border border-brand-sky/40 text-brand-glow font-extrabold text-xs px-3.5 py-1 rounded-full">
+            <span class="w-2 h-2 rounded-full bg-brand-gold"></span>
+            <span>فريق نيو ستيب | لجنة الدعم والمساعدة ومسجل الأسماء</span>
+          </div>
+          <h2 class="text-2xl sm:text-3xl font-black text-white tracking-tight pt-1">
+            مرحباً بك في حضّرني 👋
+          </h2>
+          <p class="text-xs sm:text-sm text-brand-sky font-medium">
+            اختر القائمة المطلوبة للبدء في تسجيل المتدربين، التحضير، متابعة الشهادات والحسابات بكل سلاسة.
+          </p>
+        </div>
+
+        <!-- Quick Stats Box -->
+        <div class="flex items-center gap-4 bg-brand-deeper/85 border border-brand-sky/30 px-5 py-3.5 rounded-2xl shrink-0">
+          <div class="text-center">
+            <span class="block text-[11px] text-brand-sky font-bold">الفعاليات النشطة</span>
+            <strong id="home-stat-active-events" class="text-xl font-black text-brand-gold">0</strong>
+          </div>
+          <div class="w-px h-9 bg-white/15"></div>
+          <div class="text-center">
+            <span class="block text-[11px] text-brand-sky font-bold">إجمالي الفعاليات</span>
+            <strong id="home-stat-events" class="text-xl font-black text-white">0</strong>
+          </div>
+          <div class="w-px h-9 bg-white/15"></div>
+          <div class="text-center">
+            <span class="block text-[11px] text-brand-sky font-bold">المتدربون</span>
+            <strong id="home-stat-participants" class="text-xl font-black text-brand-glow">0</strong>
+          </div>
+        </div>
+      </div>
+
+      <!-- 5 SQUARE MENU CARDS (Trainees Only - Balanced 3+2 Desktop / 2-Col Mobile) -->
+      <div class="grid grid-cols-2 md:grid-cols-6 gap-4 sm:gap-5">
+
+        <!-- 1. إدارة الفعاليات -->
+        <button onclick="openSection('events')" class="md:col-span-2 menu-square aspect-square bg-white dark:bg-brand-dark rounded-3xl p-4 sm:p-6 border-2 border-gray-200 dark:border-brand-sky/25 hover:border-brand-sky flex flex-col items-center justify-center text-center gap-3 cursor-pointer group">
+          <div class="w-16 h-16 sm:w-20 sm:h-20 rounded-2xl bg-brand-dark dark:bg-brand-deeper text-brand-sky flex items-center justify-center shadow-md group-hover:bg-brand-sky group-hover:text-brand-dark transition">
+            <i data-lucide="calendar-days" class="w-8 h-8 sm:w-10 sm:h-10"></i>
+          </div>
+          <div>
+            <h3 class="text-base sm:text-xl font-black text-brand-dark dark:text-white">إدارة الفعاليات</h3>
+            <p class="text-[11px] sm:text-xs text-gray-500 dark:text-brand-sky font-semibold mt-1 line-clamp-1">
+              إنشاء وتنشيط الفعاليات المتعددة
+            </p>
+          </div>
+        </button>
+
+        <!-- 2. تسجيل المتدربين -->
+        <button onclick="openSection('registration')" class="md:col-span-2 menu-square aspect-square bg-white dark:bg-brand-dark rounded-3xl p-4 sm:p-6 border-2 border-gray-200 dark:border-brand-sky/25 hover:border-brand-sky flex flex-col items-center justify-center text-center gap-3 cursor-pointer group">
+          <div class="w-16 h-16 sm:w-20 sm:h-20 rounded-2xl bg-brand-dark dark:bg-brand-deeper text-brand-sky flex items-center justify-center shadow-md group-hover:bg-brand-sky group-hover:text-brand-dark transition">
+            <i data-lucide="user-plus" class="w-8 h-8 sm:w-10 sm:h-10"></i>
+          </div>
+          <div>
+            <h3 class="text-base sm:text-xl font-black text-brand-dark dark:text-white">تسجيل المتدربين</h3>
+            <p class="text-[11px] sm:text-xs text-gray-500 dark:text-brand-sky font-semibold mt-1 line-clamp-1">
+              إضافة المتدربين وتوليد QR وواتساب
+            </p>
+          </div>
+        </button>
+
+        <!-- 3. التحضير الذكي -->
+        <button onclick="openSection('attendance')" class="md:col-span-2 menu-square aspect-square bg-white dark:bg-brand-dark rounded-3xl p-4 sm:p-6 border-2 border-gray-200 dark:border-brand-sky/25 hover:border-brand-sky flex flex-col items-center justify-center text-center gap-3 cursor-pointer group">
+          <div class="w-16 h-16 sm:w-20 sm:h-20 rounded-2xl bg-brand-dark dark:bg-brand-deeper text-brand-sky flex items-center justify-center shadow-md group-hover:bg-brand-sky group-hover:text-brand-dark transition">
+            <i data-lucide="qr-code" class="w-8 h-8 sm:w-10 sm:h-10"></i>
+          </div>
+          <div>
+            <h3 class="text-base sm:text-xl font-black text-brand-dark dark:text-white">التحضير الذكي</h3>
+            <p class="text-[11px] sm:text-xs text-gray-500 dark:text-brand-sky font-semibold mt-1 line-clamp-1">
+              مسح الكود وجدول الحضور والغياب
+            </p>
+          </div>
+        </button>
+
+        <!-- 4. الرسوم والمدفوعات -->
+        <button onclick="openSection('payments')" class="md:col-start-2 md:col-span-2 menu-square aspect-square bg-white dark:bg-brand-dark rounded-3xl p-4 sm:p-6 border-2 border-gray-200 dark:border-brand-sky/25 hover:border-brand-sky flex flex-col items-center justify-center text-center gap-3 cursor-pointer group">
+          <div class="w-16 h-16 sm:w-20 sm:h-20 rounded-2xl bg-brand-dark dark:bg-brand-deeper text-brand-sky flex items-center justify-center shadow-md group-hover:bg-brand-sky group-hover:text-brand-dark transition">
+            <i data-lucide="award" class="w-8 h-8 sm:w-10 sm:h-10"></i>
+          </div>
+          <div>
+            <h3 class="text-base sm:text-xl font-black text-brand-dark dark:text-white">الرسوم والمدفوعات</h3>
+            <p class="text-[11px] sm:text-xs text-gray-500 dark:text-brand-sky font-semibold mt-1 line-clamp-1">
+              متابعة الأقساط ورسوم الشهادات
+            </p>
+          </div>
+        </button>
+
+        <!-- 5. الحسابات والخصومات -->
+        <button onclick="openSection('finance')" class="col-span-2 md:col-span-2 menu-square aspect-square bg-white dark:bg-brand-dark rounded-3xl p-4 sm:p-6 border-2 border-gray-200 dark:border-brand-sky/25 hover:border-brand-sky flex flex-col items-center justify-center text-center gap-3 cursor-pointer group">
+          <div class="w-16 h-16 sm:w-20 sm:h-20 rounded-2xl bg-brand-dark dark:bg-brand-deeper text-brand-sky flex items-center justify-center shadow-md group-hover:bg-brand-sky group-hover:text-brand-dark transition">
+            <i data-lucide="wallet" class="w-8 h-8 sm:w-10 sm:h-10"></i>
+          </div>
+          <div>
+            <h3 class="text-base sm:text-xl font-black text-brand-dark dark:text-white">الحسابات والخصومات</h3>
+            <p class="text-[11px] sm:text-xs text-gray-500 dark:text-brand-sky font-semibold mt-1 line-clamp-1">
+              التصفية المالية وأكواد الخصم
+            </p>
+          </div>
+        </button>
+
+      </div>
+
+      <!-- SMART EXPORT, IMPORT & WHATSAPP SYNC TOOLBAR -->
+      <div class="bg-white dark:bg-brand-dark rounded-3xl p-5 border-2 border-brand-sky/40 shadow-sm space-y-4">
+        <div class="flex flex-wrap items-center justify-between gap-2 border-b border-gray-100 dark:border-brand-sky/20 pb-3">
+          <div class="flex items-center gap-2">
+            <div class="w-9 h-9 rounded-xl bg-brand-dark text-brand-sky flex items-center justify-center">
+              <i data-lucide="arrow-left-right" class="w-5 h-5"></i>
+            </div>
+            <div>
+              <h3 class="font-black text-sm sm:text-base text-brand-dark dark:text-white">التقارير والتصدير والمزامنة السريعة</h3>
+              <p class="text-[11px] text-gray-500 dark:text-brand-sky">تصدير الشهادات، خدمة العملاء، ومشاركة البيانات بين أجهزة الفريق عبر واتساب</p>
+            </div>
+          </div>
+        </div>
+
+        <div class="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-5 gap-2.5">
+          <!-- Export Certificates -->
+          <button onclick="exportCertificatesExcel()" class="bg-brand-dark hover:bg-brand-light text-white font-bold text-xs p-3 rounded-2xl flex flex-col items-center justify-center gap-1.5 text-center transition cursor-pointer shadow-xs">
+            <i data-lucide="award" class="w-5 h-5 text-brand-sky"></i>
+            <span>تصدير للشهادة (Excel)</span>
+          </button>
+
+          <!-- Export Customer Service -->
+          <button onclick="openCustomerServiceExportModal()" class="bg-emerald-600 hover:bg-emerald-700 text-white font-bold text-xs p-3 rounded-2xl flex flex-col items-center justify-center gap-1.5 text-center transition cursor-pointer shadow-xs">
+            <i data-lucide="headphones" class="w-5 h-5"></i>
+            <span>تصدير لخدمة العملاء</span>
+          </button>
+
+          <!-- Export Full Report -->
+          <button onclick="exportFullWorkbookExcel()" class="bg-purple-700 hover:bg-purple-800 text-white font-bold text-xs p-3 rounded-2xl flex flex-col items-center justify-center gap-1.5 text-center transition cursor-pointer shadow-xs">
+            <i data-lucide="file-spreadsheet" class="w-5 h-5"></i>
+            <span>التقرير الشامل (Excel)</span>
+          </button>
+
+          <!-- Export Sync Backup -->
+          <button onclick="downloadSyncBackupFile()" class="bg-sky-700 hover:bg-sky-800 text-white font-bold text-xs p-3 rounded-2xl flex flex-col items-center justify-center gap-1.5 text-center transition cursor-pointer shadow-xs">
+            <i data-lucide="share-2" class="w-5 h-5"></i>
+            <span>تصدير للمزامنة (واتساب)</span>
+          </button>
+
+          <!-- Import Data (JSON / Excel) -->
+          <label class="col-span-2 sm:col-span-1 bg-amber-500 hover:bg-amber-600 text-brand-dark font-black text-xs p-3 rounded-2xl flex flex-col items-center justify-center gap-1.5 text-center transition cursor-pointer shadow-xs">
+            <i data-lucide="upload-cloud" class="w-5 h-5"></i>
+            <span>استيراد بيانات (JSON/Excel)</span>
+            <input type="file" accept=".json,.xlsx,.xls,.csv" onchange="handleUniversalImport(event)" class="hidden" />
+          </label>
+        </div>
+      </div>
+
+    </section>
+
+    <!-- =================================================================== -->
+    <!-- SECTION 1: EVENTS MANAGEMENT (إدارة وتنشيط الفعاليات المتعددة)      -->
+    <!-- =================================================================== -->
+    <section id="section-events" class="app-section hidden space-y-6">
+      <div class="bg-white dark:bg-brand-dark rounded-3xl p-5 border border-gray-200 dark:border-brand-sky/25 shadow-sm flex flex-wrap items-center justify-between gap-3">
+        <div class="flex items-center gap-3">
+          <div class="w-12 h-12 rounded-2xl bg-brand-dark text-brand-sky flex items-center justify-center">
+            <i data-lucide="calendar-days" class="w-6 h-6"></i>
+          </div>
+          <div>
+            <h2 class="text-lg sm:text-xl font-black text-brand-dark dark:text-white">إدارة وتنشيط الفعاليات والدورات</h2>
+            <p class="text-xs text-gray-500 dark:text-brand-sky">يمكنك تنشيط أكثر من فعالية في نفس الوقت للعمل عليها معاً</p>
+          </div>
+        </div>
+        <button onclick="openEventModal(false)" class="bg-brand-dark dark:bg-brand-sky hover:bg-brand-light text-white dark:text-brand-dark font-black text-sm px-5 py-3 rounded-2xl shadow transition flex items-center gap-2 cursor-pointer">
+          <i data-lucide="plus-circle" class="w-5 h-5"></i>
+          <span>+ إنشاء فعالية جديدة</span>
+        </button>
+      </div>
+
+      <!-- Events Cards List -->
+      <div id="events-cards-grid" class="grid grid-cols-1 md:grid-cols-2 gap-4">
+        <!-- Populated dynamically -->
+      </div>
+    </section>
+
+    <!-- =================================================================== -->
+    <!-- SECTION 2: PARTICIPANTS REGISTRATION (تسجيل المتدربين)              -->
+    <!-- =================================================================== -->
+    <section id="section-registration" class="app-section hidden space-y-6">
+      <div class="grid grid-cols-1 lg:grid-cols-12 gap-6">
+        
+        <!-- Registration Form (5 cols) -->
+        <div class="lg:col-span-5 bg-white dark:bg-brand-dark rounded-3xl shadow-sm border border-gray-200 dark:border-brand-sky/25 overflow-hidden h-fit">
+          <div class="bg-brand-dark dark:bg-brand-deeper px-6 py-4 flex items-center justify-between border-b-2 border-brand-sky">
+            <div class="flex items-center gap-2 text-white">
+              <i data-lucide="user-plus" class="w-5 h-5 text-brand-sky"></i>
+              <h2 class="font-extrabold text-base" id="reg-form-title">تسجيل متدرب جديد</h2>
+            </div>
+            <span class="text-xs bg-brand-sky/20 text-brand-glow px-2.5 py-0.5 rounded-full font-bold">QR فوري</span>
+          </div>
+
+          <form id="participant-form" onsubmit="handleParticipantSubmit(event)" class="p-5 sm:p-6 space-y-4">
+            <input type="hidden" id="edit-participant-id" value="" />
+
+            <!-- Multi-Event Selection -->
+            <div>
+              <label class="block text-xs font-extrabold text-gray-700 dark:text-brand-sky mb-1.5">
+                اختر الفعالية / الفعاليات *
+              </label>
+              <div id="reg-events-checkboxes" class="max-h-32 overflow-y-auto space-y-1.5 p-2.5 rounded-2xl border border-gray-300 dark:border-brand-sky/30 bg-gray-50 dark:bg-brand-deeper">
+              </div>
+            </div>
+
+            <!-- Arabic Full Name -->
+            <div>
+              <label class="block text-xs font-bold text-gray-700 dark:text-gray-200 mb-1">الاسم الرباعي (باللغة العربية) *</label>
+              <input type="text" id="reg-name-ar" required placeholder="مثال: أحمد عبده ناجي سعيد" class="w-full rounded-xl border border-gray-300 dark:border-brand-sky/30 bg-white dark:bg-brand-deeper px-3.5 py-3 text-sm font-bold text-brand-dark dark:text-white focus:border-brand-sky focus:outline-none" />
+            </div>
+
+            <!-- English Full Name -->
+            <div>
+              <label class="block text-xs font-bold text-gray-700 dark:text-gray-200 mb-1">الاسم الرباعي (باللغة الإنجليزية) *</label>
+              <input type="text" id="reg-name-en" dir="ltr" required placeholder="Ahmed Abdo Naji Saeed" class="w-full rounded-xl border border-gray-300 dark:border-brand-sky/30 bg-white dark:bg-brand-deeper px-3.5 py-3 text-sm text-left font-semibold text-brand-dark dark:text-white focus:border-brand-sky focus:outline-none" />
+            </div>
+
+            <!-- Phone & WhatsApp (+967) -->
+            <div class="grid grid-cols-1 sm:grid-cols-2 gap-3">
+              <div>
+                <label class="block text-xs font-bold text-gray-700 dark:text-gray-200 mb-1">رقم الهاتف (9 أرقام يبدأ بـ 7) *</label>
+                <input type="tel" id="reg-phone" dir="ltr" required maxlength="9" pattern="^7[0-9]{8}$" title="يجب أن يبدأ بـ 7 ويتكون من 9 أرقام مثل 777076608" placeholder="777076608" oninput="this.value=this.value.replace(/[^0-9]/g,'').slice(0,9)" class="w-full rounded-xl border border-gray-300 dark:border-brand-sky/30 bg-white dark:bg-brand-deeper px-3.5 py-3 text-sm text-left font-bold text-brand-dark dark:text-white focus:border-brand-sky focus:outline-none" />
+              </div>
+
+              <div>
+                <div class="flex items-center justify-between mb-1">
+                  <label class="block text-xs font-bold text-gray-700 dark:text-gray-200">رقم الواتساب *</label>
+                  <button type="button" onclick="copyPhoneToWhatsapp()" class="text-[11px] font-extrabold text-brand-dark dark:text-brand-sky hover:underline cursor-pointer">نسخ الهاتف</button>
+                </div>
+                <div class="flex items-center rounded-xl border border-gray-300 dark:border-brand-sky/30 bg-white dark:bg-brand-deeper overflow-hidden focus-within:border-brand-sky" dir="ltr">
+                  <span class="bg-gray-100 dark:bg-brand-light text-brand-dark dark:text-brand-sky font-black text-xs px-2.5 py-3 border-r border-gray-300 dark:border-brand-sky/30 select-none">+967</span>
+                  <input type="tel" id="reg-whatsapp" required maxlength="9" pattern="^7[0-9]{8}$" title="أدخل 9 أرقام تبدأ بـ 7" placeholder="777076608" oninput="this.value=this.value.replace(/[^0-9]/g,'').slice(0,9)" class="w-full bg-transparent px-2.5 py-2.5 text-sm text-left font-bold text-brand-dark dark:text-white focus:outline-none" />
+                </div>
+              </div>
+            </div>
+
+            <!-- Certificate Option -->
+            <div class="bg-brand-soft dark:bg-brand-deeper border border-brand-sky/50 rounded-2xl p-3.5 flex items-center justify-between gap-3">
+              <div>
+                <span class="block text-xs font-black text-brand-dark dark:text-white">هل يرغب بالحصول على شهادة؟</span>
+                <span id="reg-cert-fee-hint" class="text-[11px] text-gray-500 dark:text-brand-sky">يُحدد حسب الفعالية</span>
+              </div>
+              <label class="relative inline-flex items-center cursor-pointer">
+                <input type="checkbox" id="reg-wants-cert" onchange="recalculateRegFees()" class="sr-only peer" />
+                <div class="w-12 h-6 bg-gray-300 peer-focus:outline-none rounded-full peer dark:bg-gray-700 peer-checked:after:translate-x-full rtl:peer-checked:after:-translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:start-[2px] after:bg-white after:border-gray-300 after:border after:rounded-full after:h-5 after:w-5 after:transition-all peer-checked:bg-brand-sky"></div>
+              </label>
+            </div>
+
+            <!-- Fees & Promo Code Section -->
+            <div id="reg-paid-section" class="hidden bg-brand-soft dark:bg-brand-deeper border border-brand-sky rounded-2xl p-4 space-y-3">
+              <div class="flex items-center justify-between border-b border-brand-sky/30 pb-2">
+                <span class="text-xs font-extrabold text-brand-dark dark:text-brand-sky">الرسوم وكود الخصم</span>
+                <span class="text-xs font-bold text-brand-dark dark:text-white">الأساسية: <strong id="reg-base-fee-display">0</strong></span>
+              </div>
+
+              <div>
+                <label class="block text-xs font-bold text-gray-700 dark:text-gray-200 mb-1">كود الخصم (اختياري)</label>
+                <div class="flex gap-2">
+                  <input type="text" id="reg-promo-code" dir="ltr" placeholder="NEWSTEP20" class="flex-1 uppercase rounded-xl border border-gray-300 dark:border-brand-sky/30 bg-white dark:bg-brand-dark px-3 py-2 text-sm font-bold text-brand-dark dark:text-white focus:outline-none" />
+                  <button type="button" onclick="applyPromoCodeInForm()" class="bg-brand-dark dark:bg-brand-sky text-white dark:text-brand-dark text-xs font-black px-4 py-2 rounded-xl transition cursor-pointer">تطبيق</button>
+                </div>
+                <p id="reg-promo-feedback" class="text-xs mt-1 font-bold hidden"></p>
+              </div>
+
+              <div class="grid grid-cols-2 gap-3 pt-1">
+                <div class="bg-white dark:bg-brand-dark rounded-xl p-2.5 border border-gray-200 dark:border-brand-sky/20">
+                  <span class="block text-[11px] text-gray-500 dark:text-brand-sky">المطلوب بعد الخصم</span>
+                  <span id="reg-net-fee-display" class="text-base font-black text-brand-dark dark:text-white">0</span>
+                </div>
+                <div>
+                  <label class="block text-[11px] font-bold text-gray-700 dark:text-gray-200 mb-1">المبلغ المدفوع الآن</label>
+                  <input type="number" id="reg-paid-amount" min="0" step="any" value="0" oninput="updateRegRemainingPreview()" class="w-full rounded-xl border border-gray-300 dark:border-brand-sky/30 bg-white dark:bg-brand-dark px-3 py-1.5 text-sm font-black text-emerald-600 dark:text-emerald-400 focus:outline-none" />
+                </div>
+              </div>
+
+              <div class="flex items-center justify-between text-xs pt-1">
+                <span class="text-gray-600 dark:text-gray-300 font-semibold">المتبقي:</span>
+                <span id="reg-remaining-display" class="font-black text-amber-600 dark:text-amber-400 text-sm">0</span>
+              </div>
+            </div>
+
+            <!-- Notes -->
+            <div>
+              <label class="block text-xs font-bold text-gray-700 dark:text-gray-200 mb-1">ملاحظات إضافية</label>
+              <textarea id="reg-notes" rows="2" placeholder="أي ملاحظات إضافية..." class="w-full rounded-xl border border-gray-300 dark:border-brand-sky/30 bg-white dark:bg-brand-deeper px-3.5 py-2 text-sm text-brand-dark dark:text-white focus:outline-none"></textarea>
+            </div>
+
+            <!-- Submit Buttons -->
+            <div class="flex items-center gap-2 pt-2">
+              <button type="submit" id="reg-submit-btn" class="flex-1 flex items-center justify-center gap-2 bg-brand-dark dark:bg-brand-sky hover:bg-brand-light text-white dark:text-brand-dark font-black py-3.5 px-4 rounded-2xl shadow-md transition cursor-pointer">
+                <i data-lucide="check-circle-2" class="w-5 h-5"></i>
+                <span>تسجيل وتوليد كود QR</span>
+              </button>
+              <button type="button" id="reg-cancel-edit-btn" onclick="resetParticipantForm()" class="hidden bg-gray-200 dark:bg-brand-deeper text-gray-700 dark:text-gray-200 font-bold py-3.5 px-4 rounded-2xl transition cursor-pointer">
+                إلغاء
+              </button>
+            </div>
+          </form>
+        </div>
+
+        <!-- Registered Participants List (7 cols) -->
+        <div class="lg:col-span-7 bg-white dark:bg-brand-dark rounded-3xl shadow-sm border border-gray-200 dark:border-brand-sky/25 overflow-hidden flex flex-col">
+          <div class="bg-gray-50 dark:bg-brand-deeper px-6 py-4 border-b border-gray-200 dark:border-brand-sky/20 flex flex-col sm:flex-row sm:items-center justify-between gap-3">
+            <div>
+              <h3 class="font-extrabold text-lg text-brand-dark dark:text-white flex items-center gap-2">
+                <i data-lucide="users" class="w-5 h-5 text-brand-sky"></i>
+                <span>قائمة المسجلين</span>
+                <span id="participants-count-badge" class="bg-brand-dark dark:bg-brand-sky text-brand-glow dark:text-brand-dark text-xs px-2.5 py-0.5 rounded-full font-black">0</span>
+              </h3>
+            </div>
+
+            <div class="flex items-center gap-2 w-full sm:w-auto">
+              <div class="relative flex-1 sm:w-60">
+                <i data-lucide="search" class="w-4 h-4 text-gray-400 absolute right-3 top-1/2 -translate-y-1/2"></i>
+                <input type="text" id="participants-search" oninput="renderParticipantsList()" placeholder="بحث بالاسم، الكود، الهاتف..." class="w-full rounded-xl border border-gray-300 dark:border-brand-sky/30 bg-white dark:bg-brand-dark pr-9 pl-3 py-2 text-sm text-brand-dark dark:text-white focus:outline-none" />
+              </div>
+              <label title="استيراد متدربين من Excel" class="p-2.5 rounded-xl bg-brand-dark dark:bg-brand-sky text-white dark:text-brand-dark cursor-pointer shrink-0">
+                <i data-lucide="file-up" class="w-4 h-4"></i>
+                <input type="file" accept=".xlsx,.xls,.csv" onchange="importParticipantsFromExcel(event)" class="hidden" />
+              </label>
+            </div>
+          </div>
+
+          <div id="participants-list-container" class="p-4 sm:p-5 space-y-3 overflow-y-auto max-h-[680px]">
+          </div>
+        </div>
+
+      </div>
+    </section>
+
+    <!-- =================================================================== -->
+    <!-- SECTION 3: SMART ATTENDANCE (التحضير الذكي)                         -->
+    <!-- =================================================================== -->
+    <section id="section-attendance" class="app-section hidden space-y-6">
+      
+      <!-- Attendance Live Stats -->
+      <div class="grid grid-cols-2 lg:grid-cols-4 gap-3 sm:gap-4">
+        <div class="bg-white dark:bg-brand-dark rounded-2xl p-4 border border-gray-200 dark:border-brand-sky/25 shadow-sm flex items-center justify-between">
+          <div>
+            <p class="text-xs font-bold text-gray-500 dark:text-brand-sky">إجمالي المسجلين</p>
+            <p id="att-stat-total" class="text-2xl font-black text-brand-dark dark:text-white mt-1">0</p>
+          </div>
+          <div class="w-11 h-11 rounded-2xl bg-brand-dark/10 dark:bg-brand-deeper text-brand-dark dark:text-brand-sky flex items-center justify-center">
+            <i data-lucide="users" class="w-6 h-6"></i>
+          </div>
+        </div>
+
+        <div class="bg-white dark:bg-brand-dark rounded-2xl p-4 border border-emerald-200 dark:border-emerald-500/30 shadow-sm flex items-center justify-between">
+          <div>
+            <p class="text-xs font-bold text-emerald-700 dark:text-emerald-400">الحاضرون (✓)</p>
+            <p id="att-stat-present" class="text-2xl font-black text-emerald-600 dark:text-emerald-400 mt-1">0</p>
+          </div>
+          <div class="w-11 h-11 rounded-2xl bg-emerald-100 dark:bg-emerald-950 text-emerald-700 dark:text-emerald-400 flex items-center justify-center">
+            <i data-lucide="user-check" class="w-6 h-6"></i>
+          </div>
+        </div>
+
+        <div class="bg-white dark:bg-brand-dark rounded-2xl p-4 border border-rose-200 dark:border-rose-500/30 shadow-sm flex items-center justify-between">
+          <div>
+            <p class="text-xs font-bold text-rose-700 dark:text-rose-400">الغائبون (✗)</p>
+            <p id="att-stat-absent" class="text-2xl font-black text-rose-600 dark:text-rose-400 mt-1">0</p>
+          </div>
+          <div class="w-11 h-11 rounded-2xl bg-rose-100 dark:bg-rose-950 text-rose-700 dark:text-rose-400 flex items-center justify-center">
+            <i data-lucide="user-x" class="w-6 h-6"></i>
+          </div>
+        </div>
+
+        <div class="bg-white dark:bg-brand-dark rounded-2xl p-4 border border-brand-sky shadow-sm flex items-center justify-between">
+          <div>
+            <p class="text-xs font-bold text-brand-dark dark:text-brand-sky">نسبة الحضور</p>
+            <p id="att-stat-rate" class="text-2xl font-black text-brand-dark dark:text-brand-glow mt-1">0%</p>
+          </div>
+          <div class="w-11 h-11 rounded-2xl bg-brand-sky/30 text-brand-dark dark:text-brand-sky flex items-center justify-center">
+            <i data-lucide="percent" class="w-6 h-6"></i>
+          </div>
+        </div>
+      </div>
+
+      <div class="grid grid-cols-1 lg:grid-cols-12 gap-6">
+        
+        <!-- Camera QR Scanner (5 cols) -->
+        <div class="lg:col-span-5 space-y-4">
+          <div class="bg-white dark:bg-brand-dark rounded-3xl shadow-sm border border-gray-200 dark:border-brand-sky/25 overflow-hidden">
+            <div class="bg-brand-dark dark:bg-brand-deeper px-6 py-4 flex items-center justify-between border-b-2 border-brand-sky">
+              <div class="flex items-center gap-2 text-white">
+                <i data-lucide="scan-line" class="w-5 h-5 text-brand-sky"></i>
+                <h2 class="font-extrabold text-base">ماسح التحضير (QR)</h2>
+              </div>
+              <div class="flex gap-1.5">
+                <button type="button" id="start-scanner-btn" onclick="startQrScanner()" class="bg-brand-sky hover:bg-brand-glow text-brand-dark text-xs font-black px-3.5 py-2 rounded-xl transition cursor-pointer flex items-center gap-1">
+                  <i data-lucide="camera" class="w-4 h-4"></i>
+                  <span>تشغيل الكاميرا</span>
+                </button>
+                <button type="button" id="stop-scanner-btn" onclick="stopQrScanner()" class="hidden bg-rose-500 hover:bg-rose-600 text-white text-xs font-bold px-3.5 py-2 rounded-xl transition cursor-pointer flex items-center gap-1">
+                  <i data-lucide="camera-off" class="w-4 h-4"></i>
+                  <span>إيقاف</span>
+                </button>
+              </div>
+            </div>
+
+            <div class="p-5 space-y-4">
+              <div class="bg-brand-deeper rounded-2xl p-3 min-h-[210px] flex flex-col items-center justify-center relative overflow-hidden">
+                <div id="qr-reader" class="w-full"></div>
+                <div id="scanner-placeholder" class="text-center text-gray-300 py-6 px-4">
+                  <i data-lucide="qr-code" class="w-12 h-12 text-brand-sky mx-auto mb-2"></i>
+                  <p class="text-sm font-bold text-white">الكاميرا جاهزة للتشغيل</p>
+                  <p class="text-xs text-brand-sky mt-1">امسح باركود المتدرب أو اضغط علامة ✓ في الجدول المقابل</p>
+                </div>
+              </div>
+
+              <div class="border-t border-gray-100 dark:border-brand-sky/20 pt-4">
+                <label class="block text-xs font-bold text-gray-700 dark:text-brand-sky mb-1.5">تحضير سريع بالكود أو الاسم</label>
+                <div class="flex gap-2">
+                  <input type="text" id="manual-qr-input" placeholder="NS-1001 أو الاسم..." onkeyup="if(event.key==='Enter') handleManualAttendance()" class="flex-1 rounded-xl border border-gray-300 dark:border-brand-sky/30 bg-white dark:bg-brand-deeper px-3.5 py-2.5 text-sm font-bold text-brand-dark dark:text-white focus:outline-none" />
+                  <button type="button" onclick="handleManualAttendance()" class="bg-brand-dark dark:bg-brand-sky text-white dark:text-brand-dark font-black px-5 py-2.5 rounded-xl text-sm transition cursor-pointer">
+                    تحضير
+                  </button>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <!-- Scan Alert Card -->
+          <div id="scan-result-card" class="hidden rounded-3xl p-5 shadow-md border-2 transition-all"></div>
+        </div>
+
+        <!-- Interactive Attendance Table (7 cols) -->
+        <div class="lg:col-span-7 bg-white dark:bg-brand-dark rounded-3xl shadow-sm border border-gray-200 dark:border-brand-sky/25 overflow-hidden flex flex-col">
+          <div class="bg-gray-50 dark:bg-brand-deeper px-5 py-4 border-b border-gray-200 dark:border-brand-sky/20 flex flex-wrap items-center justify-between gap-3">
+            <div>
+              <h2 class="font-extrabold text-base sm:text-lg text-brand-dark dark:text-white flex items-center gap-2">
+                <i data-lucide="list-checks" class="w-5 h-5 text-brand-sky"></i>
+                <span>كشف الحضور والغياب التفاعلي</span>
+              </h2>
+            </div>
+            <div class="flex flex-wrap items-center gap-2">
+              <input type="text" id="attendance-search-input" oninput="renderAttendanceSection()" placeholder="بحث سريع..." class="w-36 sm:w-44 rounded-xl border border-gray-300 dark:border-brand-sky/30 px-3 py-1.5 text-xs font-bold text-brand-dark dark:text-white bg-white dark:bg-brand-dark focus:outline-none" />
+              <input type="date" id="attendance-date-filter" onchange="renderAttendanceSection()" class="rounded-xl border border-gray-300 dark:border-brand-sky/30 px-3 py-1.5 text-xs font-bold text-brand-dark dark:text-white bg-white dark:bg-brand-dark" />
+            </div>
+          </div>
+
+          <div class="overflow-x-auto max-h-[580px]">
+            <table class="w-full text-right border-collapse">
+              <thead>
+                <tr class="bg-gray-100 dark:bg-brand-deeper border-b border-gray-200 dark:border-brand-sky/20 text-xs font-extrabold text-gray-600 dark:text-brand-sky">
+                  <th class="py-3 px-3">الكود</th>
+                  <th class="py-3 px-3">اسم المتدرب</th>
+                  <th class="py-3 px-3 text-center">الحالة</th>
+                  <th class="py-3 px-3">وقت الدخول</th>
+                  <th class="py-3 px-3 text-center">التحضير</th>
+                </tr>
+              </thead>
+              <tbody id="attendance-table-body" class="divide-y divide-gray-100 dark:divide-brand-sky/10 text-sm">
+              </tbody>
+            </table>
+          </div>
+        </div>
+
+      </div>
+    </section>
+
+    <!-- =================================================================== -->
+    <!-- SECTION 4: FEES, PAYMENTS & CERTIFICATES                            -->
+    <!-- =================================================================== -->
+    <section id="section-payments" class="app-section hidden space-y-6">
+      <div class="bg-white dark:bg-brand-dark rounded-3xl shadow-sm border border-gray-200 dark:border-brand-sky/25 overflow-hidden">
+        <div class="bg-brand-dark dark:bg-brand-deeper px-6 py-4 flex flex-col sm:flex-row sm:items-center justify-between gap-3 border-b-2 border-brand-sky">
+          <div class="text-white">
+            <h2 class="font-extrabold text-lg flex items-center gap-2">
+              <i data-lucide="award" class="w-5 h-5 text-brand-sky"></i>
+              <span>الرسوم والمدفوعات وحالة الشهادات</span>
+            </h2>
+            <p class="text-xs text-brand-sky">متابعة سداد الرسوم وتفعيل أو إلغاء رغبة الحصول على شهادة</p>
+          </div>
+
+          <div class="flex flex-wrap items-center gap-2">
+            <select id="payment-status-filter" onchange="renderPaymentsSection()" class="rounded-xl bg-brand-light text-white border border-brand-sky/30 px-3 py-2 text-xs font-bold focus:outline-none">
+              <option value="all">جميع المتدربين</option>
+              <option value="wants_cert">الراغبون بالشهادة فقط</option>
+              <option value="remaining">متبقي عليه رسوم</option>
+              <option value="paid">خالص الرسوم</option>
+            </select>
+            <button onclick="openAddPaymentModal()" class="bg-brand-sky hover:bg-brand-glow text-brand-dark font-black text-xs sm:text-sm px-4 py-2.5 rounded-xl transition flex items-center gap-1.5 cursor-pointer shadow">
+              <i data-lucide="plus-circle" class="w-4 h-4"></i>
+              <span>تسجيل دفعة مالية</span>
+            </button>
+          </div>
+        </div>
+
+        <div class="overflow-x-auto">
+          <table class="w-full text-right border-collapse">
+            <thead>
+              <tr class="bg-gray-50 dark:bg-brand-deeper border-b border-gray-200 dark:border-brand-sky/20 text-xs font-extrabold text-gray-600 dark:text-brand-sky">
+                <th class="py-3.5 px-4">الكود</th>
+                <th class="py-3.5 px-4">اسم المتدرب</th>
+                <th class="py-3.5 px-4 text-center">يرغب بشهادة؟</th>
+                <th class="py-3.5 px-4">المطلوب</th>
+                <th class="py-3.5 px-4">المدفوع</th>
+                <th class="py-3.5 px-4">المتبقي</th>
+                <th class="py-3.5 px-4">الحالة</th>
+                <th class="py-3.5 px-4 text-center">إجراء</th>
+              </tr>
+            </thead>
+            <tbody id="payments-table-body" class="divide-y divide-gray-100 dark:divide-brand-sky/10 text-sm">
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </section>
+
+    <!-- =================================================================== -->
+    <!-- SECTION 5: FINANCE & PROMO CODES                                    -->
+    <!-- =================================================================== -->
+    <section id="section-finance" class="app-section hidden space-y-6">
+      <div class="flex flex-wrap items-center justify-between gap-3 bg-white dark:bg-brand-dark p-4 rounded-2xl border border-gray-200 dark:border-brand-sky/25 shadow-sm">
+        <div class="flex items-center gap-2">
+          <i data-lucide="pie-chart" class="w-5 h-5 text-brand-dark dark:text-brand-sky"></i>
+          <span class="font-extrabold text-sm text-brand-dark dark:text-white">نطاق التصفية المالية:</span>
+        </div>
+        <div class="flex gap-2">
+          <button onclick="setFinanceScope('active')" id="fin-scope-active" class="px-4 py-2 rounded-xl text-xs font-bold bg-brand-dark dark:bg-brand-sky text-white dark:text-brand-dark transition cursor-pointer">الفعالية المحددة</button>
+          <button onclick="setFinanceScope('all')" id="fin-scope-all" class="px-4 py-2 rounded-xl text-xs font-bold bg-gray-100 dark:bg-brand-deeper text-gray-700 dark:text-gray-200 transition cursor-pointer">الإجمالي العام</button>
+        </div>
+      </div>
+
+      <!-- 4 Financial Summary Cards -->
+      <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
+        <div class="bg-white dark:bg-brand-dark rounded-3xl p-5 border border-emerald-200 dark:border-emerald-500/30 shadow-sm">
+          <span class="text-xs font-bold text-gray-500 dark:text-brand-sky">إجمالي المستلم من الطلاب</span>
+          <p id="fin-total-collected" class="text-2xl font-black text-emerald-600 dark:text-emerald-400 mt-1">0</p>
+        </div>
+
+        <div class="bg-white dark:bg-brand-dark rounded-3xl p-5 border border-amber-200 dark:border-amber-500/30 shadow-sm">
+          <span class="text-xs font-bold text-gray-500 dark:text-brand-sky">المتبقّي عند الطلاب</span>
+          <p id="fin-total-remaining" class="text-2xl font-black text-amber-600 dark:text-amber-400 mt-1">0</p>
+        </div>
+
+        <div class="bg-white dark:bg-brand-dark rounded-3xl p-5 border border-brand-sky shadow-sm">
+          <span class="text-xs font-bold text-gray-500 dark:text-brand-sky">المُسلّم للإدارة</span>
+          <p id="fin-total-handed" class="text-2xl font-black text-brand-dark dark:text-white mt-1">0</p>
+          <p class="text-xs font-bold text-brand-light dark:text-brand-sky mt-1">العهدة المتبقية: <strong id="fin-custody-balance">0</strong></p>
+        </div>
+
+        <div class="bg-white dark:bg-brand-dark rounded-3xl p-5 border border-purple-200 dark:border-purple-500/30 shadow-sm">
+          <span class="text-xs font-bold text-gray-500 dark:text-brand-sky">إجمالي الخصومات</span>
+          <p id="fin-total-discounts" class="text-2xl font-black text-purple-700 dark:text-purple-400 mt-1">0</p>
+        </div>
+      </div>
+
+      <!-- Promo Codes Used in Accounts -->
+      <div class="bg-white dark:bg-brand-dark rounded-3xl shadow-sm border border-gray-200 dark:border-brand-sky/25 overflow-hidden">
+        <div class="bg-gray-50 dark:bg-brand-deeper px-6 py-3.5 border-b border-gray-200 dark:border-brand-sky/20">
+          <h3 class="font-extrabold text-sm sm:text-base text-brand-dark dark:text-white flex items-center gap-2">
+            <i data-lucide="tag" class="w-4 h-4 text-brand-sky"></i>
+            <span>سجل استخدام أكواد الخصم وقرارات الإصدار</span>
+          </h3>
+        </div>
+        <div id="finance-promo-breakdown" class="p-4 grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-3"></div>
+      </div>
+
+      <div class="grid grid-cols-1 lg:grid-cols-12 gap-6">
+        <!-- Management Handover -->
+        <div class="lg:col-span-6 bg-white dark:bg-brand-dark rounded-3xl shadow-sm border border-gray-200 dark:border-brand-sky/25 overflow-hidden flex flex-col">
+          <div class="bg-brand-dark dark:bg-brand-deeper px-6 py-4 border-b-2 border-brand-sky text-white flex items-center gap-2">
+            <i data-lucide="hand-coins" class="w-5 h-5 text-brand-sky"></i>
+            <h3 class="font-extrabold text-base">تصفية وتسليم المبالغ للإدارة</h3>
+          </div>
+
+          <form onsubmit="handleAddHandover(event)" class="p-5 bg-gray-50 dark:bg-brand-deeper/60 border-b border-gray-200 dark:border-brand-sky/20 space-y-3">
+            <div class="grid grid-cols-1 sm:grid-cols-2 gap-3">
+              <div>
+                <label class="block text-xs font-bold text-gray-700 dark:text-gray-200 mb-1">المبلغ المُسلّم *</label>
+                <input type="number" id="handover-amount" min="1" step="any" required placeholder="0.00" class="w-full rounded-xl border border-gray-300 dark:border-brand-sky/30 bg-white dark:bg-brand-dark px-3 py-2.5 text-sm font-bold text-brand-dark dark:text-white focus:outline-none" />
+              </div>
+              <div>
+                <label class="block text-xs font-bold text-gray-700 dark:text-gray-200 mb-1">المستلم / الجهة *</label>
+                <input type="text" id="handover-receiver" required placeholder="مثال: المدير المالي للفريق" class="w-full rounded-xl border border-gray-300 dark:border-brand-sky/30 bg-white dark:bg-brand-dark px-3 py-2.5 text-sm text-brand-dark dark:text-white focus:outline-none" />
+              </div>
+            </div>
+            <div class="flex gap-2">
+              <input type="text" id="handover-notes" placeholder="ملاحظات التسليم..." class="flex-1 rounded-xl border border-gray-300 dark:border-brand-sky/30 bg-white dark:bg-brand-dark px-3 py-2.5 text-sm text-brand-dark dark:text-white focus:outline-none" />
+              <button type="submit" class="bg-brand-dark dark:bg-brand-sky text-white dark:text-brand-dark font-black text-xs sm:text-sm px-4 py-2.5 rounded-xl transition cursor-pointer whitespace-nowrap">
+                تسجيل التسليم
+              </button>
+            </div>
+          </form>
+
+          <div id="handovers-list-container" class="p-5 space-y-2.5 overflow-y-auto max-h-[300px]"></div>
+        </div>
+
+        <!-- Promo Code Creator -->
+        <div class="lg:col-span-6 bg-white dark:bg-brand-dark rounded-3xl shadow-sm border border-gray-200 dark:border-brand-sky/25 overflow-hidden flex flex-col">
+          <div class="bg-brand-dark dark:bg-brand-deeper px-6 py-4 border-b-2 border-brand-sky text-white flex items-center gap-2">
+            <i data-lucide="ticket-percent" class="w-5 h-5 text-brand-sky"></i>
+            <h3 class="font-extrabold text-base">إنشاء كود خصم جديد</h3>
+          </div>
+
+          <form onsubmit="handleAddPromoCode(event)" class="p-5 bg-gray-50 dark:bg-brand-deeper/60 border-b border-gray-200 dark:border-brand-sky/20 space-y-3">
+            <div class="grid grid-cols-1 sm:grid-cols-3 gap-3">
+              <div>
+                <label class="block text-xs font-bold text-gray-700 dark:text-gray-200 mb-1">اسم الكود *</label>
+                <input type="text" id="promo-code-input" dir="ltr" required placeholder="NEWSTEP20" class="w-full uppercase rounded-xl border border-gray-300 dark:border-brand-sky/30 bg-white dark:bg-brand-dark px-3 py-2.5 text-sm font-black text-brand-dark dark:text-white focus:outline-none" />
+              </div>
+              <div>
+                <label class="block text-xs font-bold text-gray-700 dark:text-gray-200 mb-1">نوع الخصم *</label>
+                <select id="promo-type-input" class="w-full rounded-xl border border-gray-300 dark:border-brand-sky/30 bg-white dark:bg-brand-dark px-3 py-2.5 text-sm font-bold text-brand-dark dark:text-white focus:outline-none">
+                  <option value="percent">نسبة مئوية (%)</option>
+                  <option value="fixed">مبلغ ثابت</option>
+                </select>
+              </div>
+              <div>
+                <label class="block text-xs font-bold text-gray-700 dark:text-gray-200 mb-1">القيمة *</label>
+                <input type="number" id="promo-value-input" min="1" step="any" required placeholder="20" class="w-full rounded-xl border border-gray-300 dark:border-brand-sky/30 bg-white dark:bg-brand-dark px-3 py-2.5 text-sm font-bold text-brand-dark dark:text-white focus:outline-none" />
+              </div>
+            </div>
+
+            <div>
+              <label class="block text-xs font-bold text-gray-700 dark:text-gray-200 mb-1">قرار من تم إصداره *</label>
+              <input type="text" id="promo-issuer-input" required placeholder="مثال: بقرار من قيادة فريق نيو ستيب" class="w-full rounded-xl border border-gray-300 dark:border-brand-sky/30 bg-white dark:bg-brand-dark px-3 py-2.5 text-sm text-brand-dark dark:text-white focus:outline-none" />
+            </div>
+
+            <div class="flex flex-col sm:flex-row gap-2">
+              <select id="promo-event-scope" class="flex-1 rounded-xl border border-gray-300 dark:border-brand-sky/30 bg-white dark:bg-brand-dark px-3 py-2.5 text-xs font-bold text-brand-dark dark:text-white focus:outline-none">
+                <option value="all">صالح لجميع الفعاليات</option>
+              </select>
+              <button type="submit" class="bg-brand-sky hover:bg-brand-glow text-brand-dark font-black text-xs sm:text-sm px-5 py-2.5 rounded-xl transition cursor-pointer whitespace-nowrap">
+                + اعتماد الكود
+              </button>
+            </div>
+          </form>
+
+          <div id="promo-codes-list-container" class="p-5 space-y-2.5 overflow-y-auto max-h-[300px]"></div>
+        </div>
+      </div>
+    </section>
+
+  </main>
+
+  <!-- ===================================================================== -->
+  <!-- CLEAN FOOTER WITH TEAM ROLE & DEVELOPER SIGNATURE                     -->
+  <!-- ===================================================================== -->
+  <footer class="bg-brand-dark text-white border-t-4 border-brand-sky mt-12">
+    <div class="max-w-7xl mx-auto px-4 py-5 flex flex-col sm:flex-row items-center justify-between gap-3 text-xs sm:text-sm">
+      <div class="flex flex-wrap items-center justify-center sm:justify-start gap-2 text-brand-sky font-bold">
+        <span class="font-black text-white">تطبيق حضّرني (Hadderni)</span>
+        <span>•</span>
+        <span>لجنة الدعم والمساعدة ومسجل الأسماء - فريق نيو ستيب (NEW STEP)</span>
+      </div>
+      <div class="bg-brand-deeper border border-brand-sky/40 px-4 py-1.5 rounded-full text-brand-glow font-black tracking-wide shadow-sm">
+        تم التطوير بواسطة م/ أحمد عبده
+      </div>
+    </div>
+  </footer>
+
+  <!-- ===================================================================== -->
+  <!-- MODALS                                                                -->
+  <!-- ===================================================================== -->
+
+  <!-- 1. Create / Edit Event Modal -->
+  <div id="event-modal" class="fixed inset-0 bg-brand-deeper/80 backdrop-blur-xs z-50 hidden items-center justify-center p-4 overflow-y-auto">
+    <div class="bg-white dark:bg-brand-dark rounded-3xl max-w-xl w-full shadow-2xl border-2 border-brand-sky/40 overflow-hidden my-auto">
+      <div class="bg-brand-dark dark:bg-brand-deeper px-6 py-4 flex items-center justify-between border-b-2 border-brand-sky">
+        <h3 id="event-modal-title" class="text-white font-extrabold text-lg flex items-center gap-2">
+          <i data-lucide="calendar-plus" class="w-5 h-5 text-brand-sky"></i>
+          <span>إنشاء فعالية / دورة جديدة</span>
+        </h3>
+        <button onclick="closeModal('event-modal')" class="text-gray-300 hover:text-white cursor-pointer">
+          <i data-lucide="x" class="w-5 h-5"></i>
+        </button>
+      </div>
+
+      <form onsubmit="handleEventSubmit(event)" class="p-6 space-y-4">
+        <input type="hidden" id="event-edit-id" value="" />
+
+        <div>
+          <label class="block text-xs font-bold text-gray-700 dark:text-gray-200 mb-1">اسم الفعالية أو الدورة *</label>
+          <input type="text" id="event-name" required placeholder="مثال: دبلوم مهارات القيادة والتواصل الفعال" class="w-full rounded-xl border border-gray-300 dark:border-brand-sky/30 bg-white dark:bg-brand-deeper px-3.5 py-2.5 text-sm font-bold text-brand-dark dark:text-white focus:outline-none" />
+        </div>
+
+        <div class="grid grid-cols-1 sm:grid-cols-2 gap-3">
+          <div>
+            <label class="block text-xs font-bold text-gray-700 dark:text-gray-200 mb-1">نوع الفعالية *</label>
+            <select id="event-type" class="w-full rounded-xl border border-gray-300 dark:border-brand-sky/30 bg-white dark:bg-brand-deeper px-3.5 py-2.5 text-sm font-bold text-brand-dark dark:text-white focus:outline-none">
+              <option value="دورة تدريبية">دورة تدريبية</option>
+              <option value="مهرجان تدريبي">مهرجان تدريبي</option>
+              <option value="أمسية تدريبية">أمسية تدريبية</option>
+            </select>
+          </div>
+
+          <div>
+            <label class="block text-xs font-bold text-gray-700 dark:text-gray-200 mb-1">تصنيف الفعالية *</label>
+            <select id="event-category" onchange="toggleEventFeeFields()" class="w-full rounded-xl border border-gray-300 dark:border-brand-sky/30 bg-white dark:bg-brand-deeper px-3.5 py-2.5 text-sm font-bold text-brand-dark dark:text-white focus:outline-none">
+              <option value="free">مجانية بالكامل</option>
+              <option value="free_cert_paid">مجانية ولكن برسوم شهادة</option>
+              <option value="paid">مدفوعة</option>
+            </select>
+          </div>
+        </div>
+
+        <div id="event-fee-wrapper" class="hidden bg-brand-soft dark:bg-brand-deeper p-3.5 rounded-2xl border border-brand-sky space-y-2">
+          <div id="event-course-fee-box" class="hidden">
+            <label class="block text-xs font-bold text-brand-dark dark:text-brand-sky mb-1">الرسوم الأساسية للدورة *</label>
+            <input type="number" id="event-fee" min="0" step="any" placeholder="15000" class="w-full rounded-xl border border-gray-300 dark:border-brand-sky/30 bg-white dark:bg-brand-dark px-3.5 py-2 text-sm font-black text-brand-dark dark:text-white focus:outline-none" />
+          </div>
+          <div id="event-cert-fee-box" class="hidden">
+            <label class="block text-xs font-bold text-brand-dark dark:text-brand-sky mb-1">رسوم الشهادة الاختيارية *</label>
+            <input type="number" id="event-cert-fee" min="0" step="any" placeholder="3000" class="w-full rounded-xl border border-gray-300 dark:border-brand-sky/30 bg-white dark:bg-brand-dark px-3.5 py-2 text-sm font-black text-brand-dark dark:text-white focus:outline-none" />
+          </div>
+        </div>
+
+        <div class="grid grid-cols-2 gap-3">
+          <div>
+            <label class="block text-xs font-bold text-gray-700 dark:text-gray-200 mb-1">من تاريخ *</label>
+            <input type="date" id="event-date-from" onchange="calculateEventScheduleStats()" required class="w-full rounded-xl border border-gray-300 dark:border-brand-sky/30 bg-white dark:bg-brand-deeper px-3 py-2 text-sm font-bold text-brand-dark dark:text-white focus:outline-none" />
+          </div>
+          <div>
+            <label class="block text-xs font-bold text-gray-700 dark:text-gray-200 mb-1">إلى تاريخ *</label>
+            <input type="date" id="event-date-to" onchange="calculateEventScheduleStats()" required class="w-full rounded-xl border border-gray-300 dark:border-brand-sky/30 bg-white dark:bg-brand-deeper px-3 py-2 text-sm font-bold text-brand-dark dark:text-white focus:outline-none" />
+          </div>
+        </div>
+
+        <div>
+          <label class="block text-xs font-bold text-gray-700 dark:text-gray-200 mb-1.5">أيام الدراسة في الأسبوع *</label>
+          <div class="flex flex-wrap gap-1.5" id="study-days-container">
+            <label class="cursor-pointer"><input type="checkbox" value="6" checked onchange="calculateEventScheduleStats()" class="peer sr-only" /><span class="inline-block px-3 py-1.5 rounded-xl text-xs font-extrabold border border-gray-300 dark:border-brand-sky/30 peer-checked:bg-brand-dark dark:peer-checked:bg-brand-sky peer-checked:text-white dark:peer-checked:text-brand-dark transition">السبت</span></label>
+            <label class="cursor-pointer"><input type="checkbox" value="0" checked onchange="calculateEventScheduleStats()" class="peer sr-only" /><span class="inline-block px-3 py-1.5 rounded-xl text-xs font-extrabold border border-gray-300 dark:border-brand-sky/30 peer-checked:bg-brand-dark dark:peer-checked:bg-brand-sky peer-checked:text-white dark:peer-checked:text-brand-dark transition">الأحد</span></label>
+            <label class="cursor-pointer"><input type="checkbox" value="1" checked onchange="calculateEventScheduleStats()" class="peer sr-only" /><span class="inline-block px-3 py-1.5 rounded-xl text-xs font-extrabold border border-gray-300 dark:border-brand-sky/30 peer-checked:bg-brand-dark dark:peer-checked:bg-brand-sky peer-checked:text-white dark:peer-checked:text-brand-dark transition">الإثنين</span></label>
+            <label class="cursor-pointer"><input type="checkbox" value="2" checked onchange="calculateEventScheduleStats()" class="peer sr-only" /><span class="inline-block px-3 py-1.5 rounded-xl text-xs font-extrabold border border-gray-300 dark:border-brand-sky/30 peer-checked:bg-brand-dark dark:peer-checked:bg-brand-sky peer-checked:text-white dark:peer-checked:text-brand-dark transition">الثلاثاء</span></label>
+            <label class="cursor-pointer"><input type="checkbox" value="3" checked onchange="calculateEventScheduleStats()" class="peer sr-only" /><span class="inline-block px-3 py-1.5 rounded-xl text-xs font-extrabold border border-gray-300 dark:border-brand-sky/30 peer-checked:bg-brand-dark dark:peer-checked:bg-brand-sky peer-checked:text-white dark:peer-checked:text-brand-dark transition">الأربعاء</span></label>
+            <label class="cursor-pointer"><input type="checkbox" value="4" onchange="calculateEventScheduleStats()" class="peer sr-only" /><span class="inline-block px-3 py-1.5 rounded-xl text-xs font-extrabold border border-gray-300 dark:border-brand-sky/30 peer-checked:bg-brand-dark dark:peer-checked:bg-brand-sky peer-checked:text-white dark:peer-checked:text-brand-dark transition">الخميس</span></label>
+            <label class="cursor-pointer"><input type="checkbox" value="5" onchange="calculateEventScheduleStats()" class="peer sr-only" /><span class="inline-block px-3 py-1.5 rounded-xl text-xs font-extrabold border border-gray-300 dark:border-brand-sky/30 peer-checked:bg-brand-dark dark:peer-checked:bg-brand-sky peer-checked:text-white dark:peer-checked:text-brand-dark transition">الجمعة</span></label>
+          </div>
+        </div>
+
+        <div class="grid grid-cols-2 gap-3">
+          <div>
+            <label class="block text-xs font-bold text-gray-700 dark:text-gray-200 mb-1">من الساعة *</label>
+            <input type="time" id="event-time-from" onchange="calculateEventScheduleStats()" required value="16:00" class="w-full rounded-xl border border-gray-300 dark:border-brand-sky/30 bg-white dark:bg-brand-deeper px-3.5 py-2 text-sm font-bold text-brand-dark dark:text-white focus:outline-none" />
+          </div>
+          <div>
+            <label class="block text-xs font-bold text-gray-700 dark:text-gray-200 mb-1">إلى الساعة *</label>
+            <input type="time" id="event-time-to" onchange="calculateEventScheduleStats()" required value="18:00" class="w-full rounded-xl border border-gray-300 dark:border-brand-sky/30 bg-white dark:bg-brand-deeper px-3.5 py-2 text-sm font-bold text-brand-dark dark:text-white focus:outline-none" />
+          </div>
+        </div>
+
+        <div class="bg-brand-dark text-white rounded-2xl p-3.5 border border-brand-sky flex items-center justify-around text-center">
+          <div>
+            <span class="block text-[11px] text-brand-sky">أيام الدراسة الفعلية</span>
+            <strong id="calc-total-days" class="text-lg font-black text-brand-glow">0 يوم</strong>
+          </div>
+          <div class="w-px h-8 bg-white/20"></div>
+          <div>
+            <span class="block text-[11px] text-brand-sky">إجمالي الساعات</span>
+            <strong id="calc-total-hours" class="text-lg font-black text-white">0 ساعة</strong>
+          </div>
+        </div>
+
+        <div class="flex justify-end gap-2 pt-2 border-t border-gray-100 dark:border-brand-sky/20">
+          <button type="button" onclick="closeModal('event-modal')" class="px-4 py-2.5 rounded-xl bg-gray-100 dark:bg-brand-deeper text-gray-700 dark:text-gray-200 font-bold text-sm cursor-pointer">إلغاء</button>
+          <button type="submit" class="px-6 py-2.5 rounded-xl bg-brand-dark dark:bg-brand-sky text-white dark:text-brand-dark font-black text-sm shadow cursor-pointer">حفظ الفعالية</button>
+        </div>
+      </form>
+    </div>
+  </div>
+  <!-- 2. Multi-Event Activation Modal -->
+  <div id="multi-event-modal" class="fixed inset-0 bg-brand-deeper/80 backdrop-blur-xs z-50 hidden items-center justify-center p-4">
+    <div class="bg-white dark:bg-brand-dark rounded-3xl max-w-md w-full shadow-2xl border-2 border-brand-sky overflow-hidden">
+      <div class="bg-brand-dark dark:bg-brand-deeper px-6 py-4 flex items-center justify-between border-b border-brand-sky">
+        <h3 class="text-white font-extrabold text-base flex items-center gap-2">
+          <i data-lucide="layers" class="w-5 h-5 text-brand-sky"></i>
+          <span>تنشيط الفعاليات للعمل المتزامن</span>
+        </h3>
+        <button onclick="closeModal('multi-event-modal')" class="text-gray-300 hover:text-white cursor-pointer">
+          <i data-lucide="x" class="w-5 h-5"></i>
+        </button>
+      </div>
+      <div class="p-5 space-y-4">
+        <p class="text-xs text-gray-500 dark:text-brand-sky font-bold">حدد الفعاليات التي ترغب بتنشيطها الآن في التسجيل والتحضير والتقارير:</p>
+        <div id="multi-event-checkbox-list" class="space-y-2 max-h-60 overflow-y-auto"></div>
+        <button onclick="applyMultiEventSelection()" class="w-full bg-brand-dark dark:bg-brand-sky text-white dark:text-brand-dark font-black py-3 rounded-xl text-sm cursor-pointer">
+          حفظ وتنشيط الفعاليات المحددة
+        </button>
+      </div>
+    </div>
+  </div>
+
+  <!-- 3. Participant QR Badge & WhatsApp Share Modal -->
+  <div id="qr-badge-modal" class="fixed inset-0 bg-brand-deeper/80 backdrop-blur-xs z-50 hidden items-center justify-center p-4 overflow-y-auto">
+    <div class="bg-white dark:bg-brand-dark rounded-3xl max-w-md w-full shadow-2xl border-2 border-brand-sky overflow-hidden my-auto">
+      <div class="bg-brand-dark dark:bg-brand-deeper px-6 py-4 flex items-center justify-between">
+        <h3 class="text-white font-extrabold text-base">بطاقة دخول المتدرب (QR)</h3>
+        <button onclick="closeModal('qr-badge-modal')" class="text-gray-300 hover:text-white cursor-pointer">
+          <i data-lucide="x" class="w-5 h-5"></i>
+        </button>
+      </div>
+      <div id="qr-badge-content" class="p-6 text-center space-y-4"></div>
+    </div>
+  </div>
+
+  <!-- 4. Add Payment Modal -->
+  <div id="payment-modal" class="fixed inset-0 bg-brand-deeper/80 backdrop-blur-xs z-50 hidden items-center justify-center p-4">
+    <div class="bg-white dark:bg-brand-dark rounded-3xl max-w-md w-full shadow-2xl border border-gray-200 dark:border-brand-sky/30 overflow-hidden">
+      <div class="bg-brand-dark dark:bg-brand-deeper px-6 py-4 flex items-center justify-between border-b-2 border-brand-sky">
+        <h3 class="text-white font-extrabold text-base">تسجيل دفعة مالية جديدة</h3>
+        <button onclick="closeModal('payment-modal')" class="text-gray-300 hover:text-white cursor-pointer">
+          <i data-lucide="x" class="w-5 h-5"></i>
+        </button>
+      </div>
+
+      <form onsubmit="handleAddPaymentSubmit(event)" class="p-6 space-y-4">
+        <div>
+          <label class="block text-xs font-bold text-gray-700 dark:text-gray-200 mb-1">اختر المتدرب *</label>
+          <select id="payment-participant-select" onchange="updatePaymentModalSummary()" required class="w-full rounded-xl border border-gray-300 dark:border-brand-sky/30 bg-white dark:bg-brand-deeper px-3.5 py-2.5 text-sm font-bold text-brand-dark dark:text-white focus:outline-none"></select>
+        </div>
+
+        <div id="payment-modal-summary" class="bg-gray-50 dark:bg-brand-deeper rounded-2xl p-3.5 border border-gray-200 dark:border-brand-sky/20 text-xs space-y-1.5"></div>
+
+        <div>
+          <label class="block text-xs font-bold text-gray-700 dark:text-gray-200 mb-1">المبلغ المدفوع الآن *</label>
+          <input type="number" id="payment-new-amount" min="1" step="any" required placeholder="أدخل المبلغ..." class="w-full rounded-xl border border-gray-300 dark:border-brand-sky/30 bg-white dark:bg-brand-deeper px-3.5 py-2.5 text-base font-black text-emerald-600 focus:outline-none" />
+        </div>
+
+        <div>
+          <label class="block text-xs font-bold text-gray-700 dark:text-gray-200 mb-1">ملاحظة الدفعة</label>
+          <input type="text" id="payment-note-input" placeholder="مثال: سداد رسوم الشهادة" class="w-full rounded-xl border border-gray-300 dark:border-brand-sky/30 bg-white dark:bg-brand-deeper px-3.5 py-2 text-sm text-brand-dark dark:text-white focus:outline-none" />
+        </div>
+
+        <div class="flex justify-end gap-2 pt-2">
+          <button type="button" onclick="closeModal('payment-modal')" class="px-4 py-2.5 rounded-xl bg-gray-100 dark:bg-brand-deeper text-gray-700 dark:text-gray-200 font-bold text-sm cursor-pointer">إلغاء</button>
+          <button type="submit" class="px-6 py-2.5 rounded-xl bg-emerald-600 hover:bg-emerald-700 text-white font-extrabold text-sm shadow cursor-pointer">حفظ الدفعة</button>
+        </div>
+      </form>
+    </div>
+  </div>
+
+  <!-- 5. Customer Service Text Export Modal -->
+  <div id="cs-export-modal" class="fixed inset-0 bg-brand-deeper/80 backdrop-blur-xs z-50 hidden items-center justify-center p-4">
+    <div class="bg-white dark:bg-brand-dark rounded-3xl max-w-lg w-full shadow-2xl border-2 border-brand-sky overflow-hidden">
+      <div class="bg-brand-dark dark:bg-brand-deeper px-6 py-4 flex items-center justify-between border-b border-brand-sky">
+        <h3 class="text-white font-extrabold text-base flex items-center gap-2">
+          <i data-lucide="headphones" class="w-5 h-5 text-brand-sky"></i>
+          <span>تصدير لخدمة العملاء (الأسماء وأرقام الواتساب)</span>
+        </h3>
+        <button onclick="closeModal('cs-export-modal')" class="text-gray-300 hover:text-white cursor-pointer">
+          <i data-lucide="x" class="w-5 h-5"></i>
+        </button>
+      </div>
+      <div class="p-5 space-y-4">
+        <textarea id="cs-export-textarea" rows="10" readonly class="w-full rounded-2xl border border-gray-300 dark:border-brand-sky/30 bg-gray-50 dark:bg-brand-deeper p-3.5 text-xs sm:text-sm font-bold text-brand-dark dark:text-white focus:outline-none"></textarea>
+        <div class="grid grid-cols-3 gap-2">
+          <button onclick="copyCustomerServiceText()" class="bg-brand-dark dark:bg-brand-sky text-white dark:text-brand-dark font-black text-xs py-3 px-3 rounded-xl flex items-center justify-center gap-1.5 cursor-pointer">
+            <i data-lucide="copy" class="w-4 h-4"></i>
+            <span>نسخ النص</span>
+          </button>
+          <button onclick="downloadCustomerServiceTxt()" class="bg-gray-700 hover:bg-gray-800 text-white font-black text-xs py-3 px-3 rounded-xl flex items-center justify-center gap-1.5 cursor-pointer">
+            <i data-lucide="file-text" class="w-4 h-4"></i>
+            <span>ملف TXT</span>
+          </button>
+          <button onclick="shareCustomerServiceWhatsApp()" class="bg-emerald-600 hover:bg-emerald-700 text-white font-black text-xs py-3 px-3 rounded-xl flex items-center justify-center gap-1.5 cursor-pointer">
+            <i data-lucide="send" class="w-4 h-4"></i>
+            <span>واتساب</span>
+          </button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ===================================================================== -->
+  <!-- JAVASCRIPT LOGIC                                                      -->
+  <!-- ===================================================================== -->
+  <script>
+    const STORAGE_KEY = 'HADDERNI_NEW_STEP_PRO_V3';
+    const DEV_SIGNATURE = 'تم التطوير بواسطة م/ أحمد عبده';
+    const TEAM_ROLE_LABEL = 'خاص بـ لجنة الدعم والمساعدة ومسجل الأسماء - فريق نيو ستيب (NEW STEP)';
+    const DAY_NAMES_AR = ['الأحد', 'الإثنين', 'الثلاثاء', 'الأربعاء', 'الخميس', 'الجمعة', 'السبت'];
+
+    let appState = {
+      darkMode: false,
+      activeEventId: null,
+      selectedEventIds: [],
+      events: [],
+      participants: [],
+      attendance: [],
+      promoCodes: [],
+      handovers: [],
+      sequenceCounter: 1001
+    };
+
+    let currentView = 'home';
+    let financeScope = 'active';
+    let appliedPromoInForm = null;
+    let html5QrCodeInstance = null;
+    let isScannerRunning = false;
+    let lastScannedCode = '';
+    let lastScannedTime = 0;
+
+    // -----------------------------------------------------------------------
+    // INITIALIZATION & THEME
+    // -----------------------------------------------------------------------
+    window.addEventListener('DOMContentLoaded', () => {
+      loadState();
+      applyThemeMode();
+      seedInitialDataIfEmpty();
+      setTodayDateDefault();
+      initSystemBackNavigation();
+      renderHeaderEvents();
+      updateHomeCounters();
+      lucide.createIcons();
+    });
+
+    // -----------------------------------------------------------------------
+    // SYSTEM / BROWSER HARDWARE BACK BUTTON NAVIGATION
+    // -----------------------------------------------------------------------
+    const MODAL_IDS = [
+      'event-modal',
+      'multi-event-modal',
+      'qr-badge-modal',
+      'payment-modal',
+      'cs-export-modal'
+    ];
+
+    function getOpenModalId() {
+      for (let i = MODAL_IDS.length - 1; i >= 0; i--) {
+        const el = document.getElementById(MODAL_IDS[i]);
+        if (el && !el.classList.contains('hidden')) {
+          return MODAL_IDS[i];
+        }
+      }
+      return null;
+    }
+
+    function pushHistoryStateSafe(stateObj) {
+      try {
+        window.history.pushState(stateObj, '');
+      } catch (e) {}
+    }
+
+    function initSystemBackNavigation() {
+      try {
+        window.history.replaceState({ view: 'home', modal: null }, '');
+      } catch (e) {}
+
+      window.addEventListener('popstate', () => {
+        const openModal = getOpenModalId();
+        if (openModal) {
+          closeModal(openModal, true);
+          return;
+        }
+        if (currentView !== 'home') {
+          exitToHome(true);
+        }
+      });
+    }
+
+    function loadState() {
+      try {
+        const raw = localStorage.getItem(STORAGE_KEY);
+        if (raw) {
+          appState = { ...appState, ...JSON.parse(raw) };
+        }
+      } catch (e) {
+        console.error('Error loading localStorage:', e);
+      }
+    }
+
+    function saveState() {
+      try {
+        localStorage.setItem(STORAGE_KEY, JSON.stringify(appState));
+        updateHomeCounters();
+      } catch (e) {
+        showToast('تعذر حفظ البيانات في المتصفح', 'error');
+      }
+    }
+
+    function toggleDarkMode() {
+      appState.darkMode = !appState.darkMode;
+      applyThemeMode();
+      saveState();
+    }
+
+    function applyThemeMode() {
+      const htmlEl = document.documentElement;
+      const moonIcon = document.getElementById('theme-icon-moon');
+      const sunIcon = document.getElementById('theme-icon-sun');
+      if (appState.darkMode) {
+        htmlEl.classList.add('dark');
+        if (moonIcon) moonIcon.classList.add('hidden');
+        if (sunIcon) sunIcon.classList.remove('hidden');
+      } else {
+        htmlEl.classList.remove('dark');
+        if (moonIcon) moonIcon.classList.remove('hidden');
+        if (sunIcon) sunIcon.classList.add('hidden');
+      }
+    }
+
+    function seedInitialDataIfEmpty() {
+      if (appState.events.length === 0) {
+        const today = getTodayISO();
+        const nextWeek = new Date(Date.now() + 5 * 86400000).toISOString().split('T')[0];
+        const defaultEvId = 'EVT-' + Date.now();
+        appState.events.push({
+          id: defaultEvId,
+          name: 'دورة مهارات القيادة والعلاقات العامة',
+          type: 'دورة تدريبية',
+          category: 'free_cert_paid',
+          fee: 0,
+          certFee: 3000,
+          dateFrom: today,
+          dateTo: nextWeek,
+          studyDays: [6, 0, 1, 2, 3],
+          timeFrom: '16:00',
+          timeTo: '18:00',
+          totalDays: 5,
+          totalHours: 10,
+          isActive: true
+        });
+        appState.activeEventId = defaultEvId;
+        appState.selectedEventIds = [defaultEvId];
+
+        appState.promoCodes.push({
+          id: 'PRM-1',
+          code: 'NEWSTEP20',
+          type: 'percent',
+          value: 20,
+          issuer: 'قرار إدارة فريق نيو ستيب',
+          eventId: 'all',
+          active: true
+        });
+
+        saveState();
+      } else {
+        appState.events.forEach(ev => {
+          if (typeof ev.isActive === 'undefined') {
+            ev.isActive = (appState.selectedEventIds || []).includes(ev.id) || ev.id === appState.activeEventId;
+          }
+        });
+        const activeList = appState.events.filter(e => e.isActive);
+        if (activeList.length === 0 && appState.events.length > 0) {
+          appState.events[0].isActive = true;
+          activeList.push(appState.events[0]);
+        }
+        appState.selectedEventIds = activeList.map(e => e.id);
+        if (!appState.activeEventId || !appState.selectedEventIds.includes(appState.activeEventId)) {
+          appState.activeEventId = appState.selectedEventIds[0] || null;
+        }
+      }
+    }
+
+    function getTodayISO() {
+      const now = new Date();
+      return `${now.getFullYear()}-${String(now.getMonth() + 1).padStart(2, '0')}-${String(now.getDate()).padStart(2, '0')}`;
+    }
+
+    function setTodayDateDefault() {
+      const dateInput = document.getElementById('attendance-date-filter');
+      if (dateInput) dateInput.value = getTodayISO();
+    }
+
+    function formatTime12(time24) {
+      if (!time24) return '';
+      const [hStr, mStr] = time24.split(':');
+      let h = parseInt(hStr, 10);
+      const ampm = h >= 12 ? 'م' : 'ص';
+      h = h % 12 || 12;
+      return `${h}:${mStr} ${ampm}`;
+    }
+
+    function formatNumber(num) {
+      return Number(num || 0).toLocaleString('en-US');
+    }
+
+    function getActiveEvent() {
+      return appState.events.find(e => e.id === appState.activeEventId) || appState.events.find(e => e.isActive) || null;
+    }
+
+    function getEffectiveEventIds() {
+      const activeIds = appState.events.filter(e => e.isActive).map(e => e.id);
+      if (activeIds.length > 0) return activeIds;
+      return appState.activeEventId ? [appState.activeEventId] : [];
+    }
+
+    // -----------------------------------------------------------------------
+    // NAVIGATION: SQUARE CARDS <-> SECTIONS + EXIT BUTTON & SYSTEM BACK
+    // -----------------------------------------------------------------------
+    function openSection(sectionId, fromPopState = false) {
+      if (currentView === 'attendance' && sectionId !== 'attendance' && isScannerRunning) {
+        stopQrScanner();
+      }
+      const isEnteringFromHome = currentView === 'home' && sectionId !== 'home';
+      currentView = sectionId;
+
+      if (!fromPopState && isEnteringFromHome) {
+        pushHistoryStateSafe({ view: sectionId, modal: null });
+      }
+
+      document.getElementById('section-home').classList.add('hidden');
+      document.querySelectorAll('.app-section').forEach(sec => sec.classList.add('hidden'));
+
+      const target = document.getElementById(`section-${sectionId}`);
+      if (target) target.classList.remove('hidden');
+
+      const exitBtn = document.getElementById('exit-to-home-btn');
+      exitBtn.classList.remove('hidden');
+      exitBtn.classList.add('flex');
+
+      if (sectionId === 'events') renderEventsCardsGrid();
+      if (sectionId === 'registration') {
+        renderRegEventsCheckboxes();
+        renderParticipantsList();
+      }
+      if (sectionId === 'attendance') renderAttendanceSection();
+      if (sectionId === 'payments') renderPaymentsSection();
+      if (sectionId === 'finance') renderFinanceSection();
+
+      window.scrollTo({ top: 0, behavior: 'smooth' });
+      lucide.createIcons();
+    }
+
+    function exitToHome(fromPopState = false) {
+      const openModal = getOpenModalId();
+      if (openModal) {
+        closeModal(openModal, true);
+      }
+
+      if (isScannerRunning) stopQrScanner();
+
+      if (!fromPopState && currentView !== 'home') {
+        try {
+          if (window.history.state && window.history.state.view && window.history.state.view !== 'home') {
+            window.history.back();
+            return;
+          }
+        } catch (e) {}
+      }
+
+      currentView = 'home';
+
+      document.querySelectorAll('.app-section').forEach(sec => sec.classList.add('hidden'));
+      document.getElementById('section-home').classList.remove('hidden');
+
+      const exitBtn = document.getElementById('exit-to-home-btn');
+      exitBtn.classList.add('hidden');
+      exitBtn.classList.remove('flex');
+
+      updateHomeCounters();
+      window.scrollTo({ top: 0, behavior: 'smooth' });
+      lucide.createIcons();
+    }
+
+    function updateHomeCounters() {
+      const activeCount = appState.events.filter(e => e.isActive).length;
+      document.getElementById('home-stat-active-events').textContent = activeCount;
+      document.getElementById('home-stat-events').textContent = appState.events.length;
+      document.getElementById('home-stat-participants').textContent = appState.participants.length;
+      const pill = document.getElementById('active-events-count-pill');
+      if (pill) pill.textContent = activeCount;
+    }
+
+    // -----------------------------------------------------------------------
+    // HEADER EVENTS & MULTI-EVENT ACTIVATION
+    // -----------------------------------------------------------------------
+    function renderHeaderEvents() {
+      const select = document.getElementById('active-event-select');
+      const banner = document.getElementById('active-event-banner');
+
+      if (appState.events.length === 0) {
+        select.innerHTML = '<option value="">لا توجد فعاليات</option>';
+        banner.innerHTML = '<span class="text-brand-sky">يرجى إنشاء فعالية جديدة للبدء</span>';
+        return;
+      }
+
+      const activeEvents = appState.events.filter(e => e.isActive);
+      const listToShow = activeEvents.length > 0 ? activeEvents : appState.events;
+
+      select.innerHTML = listToShow.map(ev => `
+        <option value="${ev.id}" ${ev.id === appState.activeEventId ? 'selected' : ''} class="bg-brand-dark text-white">
+          ${ev.isActive ? '🟢 ' : ''}${ev.name}
+        </option>
+      `).join('');
+
+      const pill = document.getElementById('active-events-count-pill');
+      if (pill) pill.textContent = activeEvents.length;
+
+      const activeEv = getActiveEvent();
+      if (activeEv) {
+        let catLabel = 'مجانية بالكامل';
+        if (activeEv.category === 'paid') catLabel = `مدفوعة (${formatNumber(activeEv.fee)})`;
+        if (activeEv.category === 'free_cert_paid') catLabel = `مجانية + شهادة (${formatNumber(activeEv.certFee)})`;
+
+        const daysText = (activeEv.studyDays || []).map(d => DAY_NAMES_AR[d]).join('، ');
+        const multiBadge = activeEvents.length > 1
+          ? `<button type="button" onclick="openMultiEventFilterModal()" class="bg-emerald-500 text-brand-dark font-black px-2.5 py-0.5 rounded-full text-[11px] cursor-pointer">نشط حالياً ${activeEvents.length} فعاليات</button>`
+          : `<span class="bg-emerald-500/20 text-emerald-300 border border-emerald-400/40 font-bold px-2.5 py-0.5 rounded-full text-[11px]">فعالية واحدة نشطة</span>`;
+
+        banner.innerHTML = `
+          <div class="max-w-7xl mx-auto flex flex-wrap items-center justify-between gap-2 text-gray-200">
+            <div class="flex flex-wrap items-center gap-2">
+              <span class="font-bold text-white">${activeEv.type}</span>
+              <span>•</span>
+              <span class="bg-brand-sky/20 text-brand-glow px-2 py-0.5 rounded-full font-bold">${catLabel}</span>
+              <span>•</span>
+              <span>من ${activeEv.dateFrom || '-'} إلى ${activeEv.dateTo || '-'} (${activeEv.totalDays || 0} أيام / ${activeEv.totalHours || 0} ساعة)</span>
+              <span>•</span>
+              <span class="text-brand-sky">الأيام: ${daysText || 'غير محدد'}</span>
+            </div>
+            ${multiBadge}
+          </div>
+        `;
+      }
+    }
+
+    function handleActiveEventChange(newId) {
+      appState.activeEventId = newId;
+      const ev = appState.events.find(e => e.id === newId);
+      if (ev && !ev.isActive) {
+        ev.isActive = true;
+      }
+      appState.selectedEventIds = getEffectiveEventIds();
+      saveState();
+      renderHeaderEvents();
+      if (currentView !== 'home') openSection(currentView);
+      showToast('تم التركيز على الفعالية المختارة', 'info');
+    }
+
+    function toggleEventActivation(eventId) {
+      const ev = appState.events.find(e => e.id === eventId);
+      if (!ev) return;
+
+      const currentlyActive = appState.events.filter(e => e.isActive);
+      if (ev.isActive && currentlyActive.length === 1) {
+        showToast('يجب أن تبقى فعالية واحدة نشطة على الأقل!', 'warning');
+        return;
+      }
+
+      ev.isActive = !ev.isActive;
+      const updatedActive = appState.events.filter(e => e.isActive);
+      appState.selectedEventIds = updatedActive.map(e => e.id);
+      if (!appState.selectedEventIds.includes(appState.activeEventId)) {
+        appState.activeEventId = appState.selectedEventIds[0];
+      }
+
+      saveState();
+      renderHeaderEvents();
+      if (currentView === 'events') renderEventsCardsGrid();
+      showToast(ev.isActive ? `تم تنشيط "${ev.name}" ✓` : `تم إيقاف تنشيط "${ev.name}"`, ev.isActive ? 'success' : 'info');
+    }
+
+    function openMultiEventFilterModal() {
+      const container = document.getElementById('multi-event-checkbox-list');
+
+      container.innerHTML = appState.events.map(ev => `
+        <label class="flex items-center justify-between gap-3 p-3 rounded-2xl border ${ev.isActive ? 'border-emerald-500 bg-emerald-50/40 dark:bg-emerald-950/30' : 'border-gray-200 dark:border-brand-sky/25 bg-gray-50 dark:bg-brand-deeper'} cursor-pointer">
+          <div class="flex items-center gap-3">
+            <input type="checkbox" value="${ev.id}" ${ev.isActive ? 'checked' : ''} class="multi-ev-cb w-4 h-4 accent-emerald-600" />
+            <div class="text-xs">
+              <p class="font-black text-brand-dark dark:text-white">${ev.name}</p>
+              <p class="text-gray-500 dark:text-brand-sky">${ev.type}</p>
+            </div>
+          </div>
+          <span class="text-[10px] font-black px-2 py-0.5 rounded-full ${ev.isActive ? 'bg-emerald-600 text-white' : 'bg-gray-200 text-gray-600'}">
+            ${ev.isActive ? 'نشطة' : 'متوقفة'}
+          </span>
+        </label>
+      `).join('');
+
+      const modal = document.getElementById('multi-event-modal');
+      modal.classList.remove('hidden');
+      modal.classList.add('flex');
+      pushHistoryStateSafe({ view: currentView, modal: 'multi-event-modal' });
+    }
+
+    function applyMultiEventSelection() {
+      const checked = Array.from(document.querySelectorAll('.multi-ev-cb:checked')).map(cb => cb.value);
+      if (checked.length === 0) {
+        showToast('يرجى تنشيط فعالية واحدة على الأقل', 'warning');
+        return;
+      }
+      appState.events.forEach(ev => {
+        ev.isActive = checked.includes(ev.id);
+      });
+      appState.selectedEventIds = checked;
+      if (!checked.includes(appState.activeEventId)) {
+        appState.activeEventId = checked[0];
+      }
+      saveState();
+      closeModal('multi-event-modal');
+      renderHeaderEvents();
+      if (currentView !== 'home') openSection(currentView);
+      showToast(`تم تنشيط ${checked.length} فعاليات للعمل المتزامن`, 'success');
+    }
+
+    // -----------------------------------------------------------------------
+    // SECTION 1: EVENTS MANAGEMENT
+    // -----------------------------------------------------------------------
+    function renderEventsCardsGrid() {
+      const grid = document.getElementById('events-cards-grid');
+      if (appState.events.length === 0) {
+        grid.innerHTML = `<div class="col-span-full text-center py-12 text-gray-400 font-bold">لا توجد فعاليات مضافة بعد</div>`;
+        return;
+      }
+
+      grid.innerHTML = appState.events.map(ev => {
+        const isCurrent = !!ev.isActive;
+        const count = appState.participants.filter(p => p.eventId === ev.id).length;
+        const daysText = (ev.studyDays || []).map(d => DAY_NAMES_AR[d]).join('، ');
+        let catText = 'مجانية بالكامل';
+        if (ev.category === 'paid') catText = `مدفوعة (${formatNumber(ev.fee)})`;
+        if (ev.category === 'free_cert_paid') catText = `مجانية + شهادة (${formatNumber(ev.certFee)})`;
+
+        return `
+          <div class="bg-white dark:bg-brand-dark rounded-3xl p-5 border-2 ${isCurrent ? 'border-emerald-500 shadow-md' : 'border-gray-200 dark:border-brand-sky/20 opacity-85'} flex flex-col justify-between gap-4 transition">
+            <div class="space-y-2">
+              <div class="flex items-start justify-between gap-2">
+                <div>
+                  <span class="text-[11px] font-extrabold px-2.5 py-0.5 rounded-full bg-brand-sky/25 text-brand-dark dark:text-brand-sky">${ev.type}</span>
+                  <h3 class="text-lg font-black text-brand-dark dark:text-white mt-1.5">${ev.name}</h3>
+                </div>
+                <button onclick="toggleEventActivation('${ev.id}')" class="px-3 py-1 rounded-full text-xs font-black shrink-0 cursor-pointer transition ${isCurrent ? 'bg-emerald-600 text-white shadow-xs' : 'bg-gray-200 dark:bg-brand-deeper text-gray-600 dark:text-gray-300'}">
+                  ${isCurrent ? '🟢 نشطة الآن' : '⚪ غير نشطة'}
+                </button>
+              </div>
+
+              <div class="grid grid-cols-2 gap-2 text-xs text-gray-600 dark:text-gray-300 pt-1">
+                <div>📅 من <strong>${ev.dateFrom}</strong> إلى <strong>${ev.dateTo}</strong></div>
+                <div>⏱ <strong>${ev.totalDays || 0}</strong> أيام (${ev.totalHours || 0} ساعة)</div>
+                <div>💰 التصنيف: <strong>${catText}</strong></div>
+                <div>👥 المسجلون: <strong>${count}</strong> متدرب</div>
+              </div>
+              <p class="text-xs text-brand-light dark:text-brand-sky font-bold">الأيام: ${daysText || 'غير محدد'}</p>
+            </div>
+
+            <div class="flex items-center gap-2 pt-3 border-t border-gray-100 dark:border-brand-sky/15">
+              <button onclick="toggleEventActivation('${ev.id}')" class="flex-1 ${isCurrent ? 'bg-amber-500 hover:bg-amber-600 text-brand-dark' : 'bg-emerald-600 hover:bg-emerald-700 text-white'} font-black text-xs py-2.5 rounded-xl cursor-pointer transition">
+                ${isCurrent ? 'إيقاف التنشيط' : 'تنشيط الفعالية ✓'}
+              </button>
+              <button onclick="openEventModal(true, '${ev.id}')" class="px-4 py-2.5 rounded-xl bg-brand-dark dark:bg-brand-deeper text-white dark:text-brand-sky font-bold text-xs cursor-pointer">
+                تعديل
+              </button>
+            </div>
+          </div>
+        `;
+      }).join('');
+    }
+
+    function openEventModal(isEdit = false, specificId = null) {
+      const modal = document.getElementById('event-modal');
+      const titleEl = document.getElementById('event-modal-title');
+      const editIdInput = document.getElementById('event-edit-id');
+
+      if (isEdit) {
+        const ev = specificId ? appState.events.find(e => e.id === specificId) : getActiveEvent();
+        if (!ev) return;
+        titleEl.innerHTML = `<i data-lucide="edit-3" class="w-5 h-5 text-brand-sky"></i><span>تعديل بيانات الفعالية</span>`;
+        editIdInput.value = ev.id;
+        document.getElementById('event-name').value = ev.name;
+        document.getElementById('event-type').value = ev.type;
+        document.getElementById('event-category').value = ev.category;
+        document.getElementById('event-fee').value = ev.fee || 0;
+        document.getElementById('event-cert-fee').value = ev.certFee || 0;
+        document.getElementById('event-date-from').value = ev.dateFrom || getTodayISO();
+        document.getElementById('event-date-to').value = ev.dateTo || getTodayISO();
+        document.getElementById('event-time-from').value = ev.timeFrom || '16:00';
+        document.getElementById('event-time-to').value = ev.timeTo || '18:00';
+
+        const savedDays = ev.studyDays || [6, 0, 1, 2, 3];
+        document.querySelectorAll('#study-days-container input[type="checkbox"]').forEach(cb => {
+          cb.checked = savedDays.includes(parseInt(cb.value, 10));
+        });
+      } else {
+        titleEl.innerHTML = `<i data-lucide="calendar-plus" class="w-5 h-5 text-brand-sky"></i><span>إنشاء فعالية / دورة جديدة</span>`;
+        editIdInput.value = '';
+        document.getElementById('event-name').value = '';
+        document.getElementById('event-type').value = 'دورة تدريبية';
+        document.getElementById('event-category').value = 'free';
+        document.getElementById('event-fee').value = '';
+        document.getElementById('event-cert-fee').value = '';
+        document.getElementById('event-date-from').value = getTodayISO();
+        document.getElementById('event-date-to').value = getTodayISO();
+        document.getElementById('event-time-from').value = '16:00';
+        document.getElementById('event-time-to').value = '18:00';
+      }
+
+      toggleEventFeeFields();
+      calculateEventScheduleStats();
+      modal.classList.remove('hidden');
+      modal.classList.add('flex');
+      pushHistoryStateSafe({ view: currentView, modal: 'event-modal' });
+      lucide.createIcons();
+    }
+
+    function toggleEventFeeFields() {
+      const cat = document.getElementById('event-category').value;
+      const wrapper = document.getElementById('event-fee-wrapper');
+      const courseBox = document.getElementById('event-course-fee-box');
+      const certBox = document.getElementById('event-cert-fee-box');
+
+      if (cat === 'free') {
+        wrapper.classList.add('hidden');
+      } else if (cat === 'free_cert_paid') {
+        wrapper.classList.remove('hidden');
+        courseBox.classList.add('hidden');
+        certBox.classList.remove('hidden');
+      } else {
+        wrapper.classList.remove('hidden');
+        courseBox.classList.remove('hidden');
+        certBox.classList.remove('hidden');
+      }
+    }
+
+    function calculateEventScheduleStats() {
+      const dateFromStr = document.getElementById('event-date-from').value;
+      const dateToStr = document.getElementById('event-date-to').value;
+      const timeFromStr = document.getElementById('event-time-from').value;
+      const timeToStr = document.getElementById('event-time-to').value;
+
+      const selectedDays = Array.from(document.querySelectorAll('#study-days-container input[type="checkbox"]:checked'))
+        .map(cb => parseInt(cb.value, 10));
+
+      let totalDays = 0;
+      if (dateFromStr && dateToStr && selectedDays.length > 0) {
+        const start = new Date(dateFromStr + 'T00:00:00');
+        const end = new Date(dateToStr + 'T00:00:00');
+        if (end >= start) {
+          let cur = new Date(start);
+          while (cur <= end) {
+            if (selectedDays.includes(cur.getDay())) {
+              totalDays++;
+            }
+            cur.setDate(cur.getDate() + 1);
+          }
+        }
+      }
+
+      let dailyHours = 0;
+      if (timeFromStr && timeToStr) {
+        const [h1, m1] = timeFromStr.split(':').map(Number);
+        const [h2, m2] = timeToStr.split(':').map(Number);
+        const diffMins = (h2 * 60 + m2) - (h1 * 60 + m1);
+        if (diffMins > 0) {
+          dailyHours = diffMins / 60;
+        }
+      }
+
+      const totalHours = Number((totalDays * dailyHours).toFixed(1));
+      document.getElementById('calc-total-days').textContent = `${totalDays} يوم`;
+      document.getElementById('calc-total-hours').textContent = `${totalHours} ساعة`;
+      return { totalDays, totalHours, selectedDays };
+    }
+
+    function handleEventSubmit(e) {
+      e.preventDefault();
+      const editId = document.getElementById('event-edit-id').value;
+      const name = document.getElementById('event-name').value.trim();
+      const type = document.getElementById('event-type').value;
+      const category = document.getElementById('event-category').value;
+      const fee = category === 'paid' ? (parseFloat(document.getElementById('event-fee').value) || 0) : 0;
+      const certFee = (category === 'paid' || category === 'free_cert_paid')
+        ? (parseFloat(document.getElementById('event-cert-fee').value) || 0)
+        : 0;
+
+      const dateFrom = document.getElementById('event-date-from').value;
+      const dateTo = document.getElementById('event-date-to').value;
+      const timeFrom = document.getElementById('event-time-from').value;
+      const timeTo = document.getElementById('event-time-to').value;
+      const stats = calculateEventScheduleStats();
+
+      const eventPayload = {
+        name,
+        type,
+        category,
+        fee,
+        certFee,
+        dateFrom,
+        dateTo,
+        studyDays: stats.selectedDays,
+        timeFrom,
+        timeTo,
+        totalDays: stats.totalDays,
+        totalHours: stats.totalHours
+      };
+
+      if (editId) {
+        const idx = appState.events.findIndex(ev => ev.id === editId);
+        if (idx !== -1) {
+          appState.events[idx] = { ...appState.events[idx], ...eventPayload };
+          showToast('تم تحديث بيانات الفعالية بنجاح', 'success');
+        }
+      } else {
+        const newId = 'EVT-' + Date.now();
+        appState.events.push({ id: newId, ...eventPayload, isActive: true, createdAt: new Date().toISOString() });
+        appState.activeEventId = newId;
+        appState.selectedEventIds = appState.events.filter(e => e.isActive).map(e => e.id);
+        showToast('تم إنشاء وتنشيط الفعالية الجديدة بنجاح', 'success');
+      }
+
+      saveState();
+      closeModal('event-modal');
+      renderHeaderEvents();
+      if (currentView === 'events') renderEventsCardsGrid();
+      if (currentView === 'registration') {
+        renderRegEventsCheckboxes();
+        renderParticipantsList();
+      }
+    }
+
+    // -----------------------------------------------------------------------
+    // SECTION 2: PARTICIPANTS REGISTRATION
+    // -----------------------------------------------------------------------
+    function renderRegEventsCheckboxes() {
+      const container = document.getElementById('reg-events-checkboxes');
+      if (!container) return;
+
+      const activeList = appState.events.filter(e => e.isActive);
+      const displayEvents = activeList.length > 0 ? activeList : appState.events;
+
+      container.innerHTML = displayEvents.map(ev => `
+        <label class="flex items-center justify-between gap-2 p-2 rounded-xl hover:bg-white dark:hover:bg-brand-dark cursor-pointer text-xs">
+          <div class="flex items-center gap-2">
+            <input type="checkbox" value="${ev.id}" ${ev.id === appState.activeEventId ? 'checked' : ''} onchange="recalculateRegFees()" class="reg-ev-cb w-4 h-4 accent-brand-dark" />
+            <span class="font-bold text-brand-dark dark:text-white">${ev.name}</span>
+          </div>
+          <span class="text-[10px] font-bold px-2 py-0.5 rounded-full bg-brand-sky/25 text-brand-dark dark:text-brand-sky">
+            ${ev.category === 'paid' ? formatNumber(ev.fee) : (ev.category === 'free_cert_paid' ? 'مجاني + شهادة' : 'مجاني')}
+          </span>
+        </label>
+      `).join('');
+
+      recalculateRegFees();
+    }
+
+    function copyPhoneToWhatsapp() {
+      const phone = document.getElementById('reg-phone').value.trim();
+      if (!/^7[0-9]{8}$/.test(phone)) {
+        showToast('يرجى إدخال رقم صحيح من 9 أرقام يبدأ بـ 7 أولاً', 'warning');
+        return;
+      }
+      document.getElementById('reg-whatsapp').value = phone;
+      showToast('تم نسخ الرقم إلى خانة الواتساب', 'info');
+    }
+
+    function applyPromoCodeInForm() {
+      const codeStr = document.getElementById('reg-promo-code').value.trim().toUpperCase();
+      const feedback = document.getElementById('reg-promo-feedback');
+
+      if (!codeStr) {
+        appliedPromoInForm = null;
+        feedback.classList.add('hidden');
+        recalculateRegFees();
+        return;
+      }
+
+      const promo = appState.promoCodes.find(p => p.code.toUpperCase() === codeStr && p.active);
+      feedback.classList.remove('hidden');
+
+      if (!promo) {
+        appliedPromoInForm = null;
+        feedback.className = 'text-xs mt-1 font-bold text-rose-600';
+        feedback.textContent = 'كود الخصم غير صالح أو متوقف.';
+      } else {
+        appliedPromoInForm = promo;
+        const desc = promo.type === 'percent' ? `${promo.value}%` : `${formatNumber(promo.value)}`;
+        feedback.className = 'text-xs mt-1 font-bold text-emerald-600 dark:text-emerald-400';
+        feedback.textContent = `تم تطبيق كود ${promo.code} (${desc}) - ${promo.issuer || ''}`;
+      }
+      recalculateRegFees();
+    }
+
+    function getSelectedRegEventIds() {
+      return Array.from(document.querySelectorAll('.reg-ev-cb:checked')).map(cb => cb.value);
+    }
+
+    function recalculateRegFees() {
+      const selectedEvIds = getSelectedRegEventIds();
+      const primaryEv = appState.events.find(e => e.id === (selectedEvIds[0] || appState.activeEventId));
+      const wantsCert = document.getElementById('reg-wants-cert').checked;
+      const paidSection = document.getElementById('reg-paid-section');
+      const certHint = document.getElementById('reg-cert-fee-hint');
+
+      if (!primaryEv) return { baseFee: 0, discountAmount: 0, netFee: 0 };
+
+      let baseFee = 0;
+      if (primaryEv.category === 'paid') {
+        baseFee += Number(primaryEv.fee) || 0;
+        if (wantsCert && primaryEv.certFee > 0) {
+          baseFee += Number(primaryEv.certFee) || 0;
+          certHint.textContent = `تُضاف رسوم الشهادة (${formatNumber(primaryEv.certFee)})`;
+        } else {
+          certHint.textContent = primaryEv.certFee > 0 ? `رسوم الشهادة الاختيارية: ${formatNumber(primaryEv.certFee)}` : 'شاملة';
+        }
+      } else if (primaryEv.category === 'free_cert_paid') {
+        certHint.textContent = `الفعالية مجانية، ورسوم الشهادة: ${formatNumber(primaryEv.certFee)}`;
+        if (wantsCert) {
+          baseFee = Number(primaryEv.certFee) || 0;
+        }
+      } else {
+        certHint.textContent = 'فعالية مجانية بالكامل';
+      }
+
+      if (baseFee <= 0) {
+        paidSection.classList.add('hidden');
+        return { baseFee: 0, discountAmount: 0, netFee: 0 };
+      }
+
+      paidSection.classList.remove('hidden');
+      document.getElementById('reg-base-fee-display').textContent = formatNumber(baseFee);
+
+      let discountAmount = 0;
+      if (appliedPromoInForm) {
+        discountAmount = appliedPromoInForm.type === 'percent'
+          ? Math.round((baseFee * appliedPromoInForm.value) / 100)
+          : (Number(appliedPromoInForm.value) || 0);
+      }
+      if (discountAmount > baseFee) discountAmount = baseFee;
+
+      const netFee = Math.max(0, baseFee - discountAmount);
+      document.getElementById('reg-net-fee-display').textContent = formatNumber(netFee);
+      updateRegRemainingPreview(netFee);
+      return { baseFee, discountAmount, netFee };
+    }
+
+    function updateRegRemainingPreview(forcedNet = null) {
+      const netFee = forcedNet !== null
+        ? forcedNet
+        : Number(document.getElementById('reg-net-fee-display').textContent.replace(/,/g, '')) || 0;
+      const paidNow = Number(document.getElementById('reg-paid-amount').value) || 0;
+      document.getElementById('reg-remaining-display').textContent = formatNumber(Math.max(0, netFee - paidNow));
+    }
+
+    function handleParticipantSubmit(e) {
+      e.preventDefault();
+      const editId = document.getElementById('edit-participant-id').value;
+      const targetEvIds = getSelectedRegEventIds();
+
+      if (targetEvIds.length === 0) {
+        showToast('يرجى تحديد فعالية واحدة على الأقل', 'warning');
+        return;
+      }
+
+      const nameAr = document.getElementById('reg-name-ar').value.trim();
+      const nameEn = document.getElementById('reg-name-en').value.trim();
+      const phone = document.getElementById('reg-phone').value.trim();
+      const whatsappLocal = document.getElementById('reg-whatsapp').value.trim();
+      const wantsCert = document.getElementById('reg-wants-cert').checked;
+      const notes = document.getElementById('reg-notes').value.trim();
+
+      if (!/^7[0-9]{8}$/.test(phone) || !/^7[0-9]{8}$/.test(whatsappLocal)) {
+        showToast('يجب أن يتكون رقم الهاتف والواتساب من 9 أرقام ويبدأ بالرقم 7', 'error');
+        return;
+      }
+
+      const fullWhatsapp = `967${whatsappLocal}`;
+      const calc = recalculateRegFees();
+      const paidNow = calc.netFee > 0 ? Math.max(0, Number(document.getElementById('reg-paid-amount').value) || 0) : 0;
+
+      if (editId) {
+        const idx = appState.participants.findIndex(p => p.id === editId);
+        if (idx !== -1) {
+          const p = appState.participants[idx];
+          p.nameAr = nameAr;
+          p.nameEn = nameEn;
+          p.phone = phone;
+          p.whatsapp = fullWhatsapp;
+          p.wantsCert = wantsCert;
+          p.notes = notes;
+          p.baseFee = calc.baseFee;
+          p.discountAmount = calc.discountAmount;
+          p.promoCode = appliedPromoInForm ? appliedPromoInForm.code : p.promoCode;
+          p.netFee = calc.netFee;
+          saveState();
+          resetParticipantForm();
+          renderParticipantsList();
+          showToast('تم تعديل بيانات المتدرب بنجاح', 'success');
+        }
+        return;
+      }
+
+      let firstCreatedId = null;
+      const nowIso = new Date().toISOString();
+
+      targetEvIds.forEach(evId => {
+        const evObj = appState.events.find(item => item.id === evId);
+        if (!evObj) return;
+
+        const uniqueCode = `NS-${appState.sequenceCounter++}`;
+        if (!firstCreatedId) firstCreatedId = uniqueCode;
+
+        let evBase = 0;
+        if (evObj.category === 'paid') {
+          evBase = (Number(evObj.fee) || 0) + (wantsCert ? (Number(evObj.certFee) || 0) : 0);
+        } else if (evObj.category === 'free_cert_paid' && wantsCert) {
+          evBase = Number(evObj.certFee) || 0;
+        }
+
+        let evDiscount = 0;
+        if (evBase > 0 && appliedPromoInForm) {
+          evDiscount = appliedPromoInForm.type === 'percent'
+            ? Math.round((evBase * appliedPromoInForm.value) / 100)
+            : (Number(appliedPromoInForm.value) || 0);
+          if (evDiscount > evBase) evDiscount = evBase;
+        }
+        const evNet = Math.max(0, evBase - evDiscount);
+        const evPaid = evNet > 0 ? Math.min(paidNow, evNet) : 0;
+
+        const payments = [];
+        if (evPaid > 0) {
+          payments.push({
+            id: 'PAY-' + Date.now() + Math.random().toString(36).slice(2, 5),
+            amount: evPaid,
+            date: nowIso,
+            note: 'دفعة عند التسجيل'
+          });
+        }
+
+        appState.participants.unshift({
+          id: uniqueCode,
+          eventId: evId,
+          nameAr,
+          nameEn,
+          phone,
+          whatsapp: fullWhatsapp,
+          wantsCert,
+          notes,
+          baseFee: evBase,
+          discountAmount: evDiscount,
+          promoCode: appliedPromoInForm ? appliedPromoInForm.code : '',
+          netFee: evNet,
+          payments,
+          registeredAt: nowIso
+        });
+      });
+
+      saveState();
+      resetParticipantForm();
+      renderParticipantsList();
+      showToast(`تم تسجيل المتدرب بنجاح بالكود ${firstCreatedId}`, 'success');
+      if (firstCreatedId) openQrBadgeModal(firstCreatedId);
+    }
+
+    function resetParticipantForm() {
+      document.getElementById('edit-participant-id').value = '';
+      document.getElementById('reg-form-title').textContent = 'تسجيل متدرب جديد';
+      document.getElementById('reg-submit-btn').innerHTML = `<i data-lucide="check-circle-2" class="w-5 h-5"></i><span>تسجيل وتوليد كود QR</span>`;
+      document.getElementById('reg-cancel-edit-btn').classList.add('hidden');
+      document.getElementById('reg-name-ar').value = '';
+      document.getElementById('reg-name-en').value = '';
+      document.getElementById('reg-phone').value = '';
+      document.getElementById('reg-whatsapp').value = '';
+      document.getElementById('reg-wants-cert').checked = false;
+      document.getElementById('reg-promo-code').value = '';
+      document.getElementById('reg-promo-feedback').classList.add('hidden');
+      document.getElementById('reg-paid-amount').value = '0';
+      document.getElementById('reg-notes').value = '';
+      appliedPromoInForm = null;
+      renderRegEventsCheckboxes();
+      lucide.createIcons();
+    }
+
+    function editParticipant(participantId) {
+      const p = appState.participants.find(item => item.id === participantId);
+      if (!p) return;
+
+      document.getElementById('edit-participant-id').value = p.id;
+      document.getElementById('reg-form-title').textContent = `تعديل بيانات: ${p.id}`;
+      document.getElementById('reg-submit-btn').innerHTML = `<i data-lucide="save" class="w-5 h-5"></i><span>حفظ التعديلات</span>`;
+      document.getElementById('reg-cancel-edit-btn').classList.remove('hidden');
+
+      document.querySelectorAll('.reg-ev-cb').forEach(cb => {
+        cb.checked = cb.value === p.eventId;
+      });
+
+      document.getElementById('reg-name-ar').value = p.nameAr;
+      document.getElementById('reg-name-en').value = p.nameEn;
+      document.getElementById('reg-phone').value = p.phone;
+      document.getElementById('reg-whatsapp').value = p.whatsapp.replace(/^967/, '');
+      document.getElementById('reg-wants-cert').checked = !!p.wantsCert;
+      document.getElementById('reg-notes').value = p.notes || '';
+      recalculateRegFees();
+      document.getElementById('reg-paid-amount').value = getParticipantPaid(p);
+      updateRegRemainingPreview(p.netFee);
+
+      window.scrollTo({ top: 0, behavior: 'smooth' });
+      lucide.createIcons();
+    }
+
+    function deleteParticipant(participantId) {
+      appState.participants = appState.participants.filter(p => p.id !== participantId);
+      appState.attendance = appState.attendance.filter(a => a.participantId !== participantId);
+      saveState();
+      renderParticipantsList();
+      showToast('تم حذف المتدرب من السجل', 'info');
+    }
+
+    function getParticipantPaid(p) {
+      return (p.payments || []).reduce((sum, pay) => sum + (Number(pay.amount) || 0), 0);
+    }
+
+    function getParticipantRemaining(p) {
+      return Math.max(0, (Number(p.netFee) || 0) - getParticipantPaid(p));
+    }
+
+    function renderParticipantsList() {
+      const container = document.getElementById('participants-list-container');
+      const countBadge = document.getElementById('participants-count-badge');
+      const searchVal = (document.getElementById('participants-search').value || '').trim().toLowerCase();
+      const targetEvIds = getEffectiveEventIds();
+
+      const filtered = appState.participants.filter(p => {
+        if (!targetEvIds.includes(p.eventId)) return false;
+        if (!searchVal) return true;
+        return (
+          p.nameAr.toLowerCase().includes(searchVal) ||
+          p.nameEn.toLowerCase().includes(searchVal) ||
+          p.id.toLowerCase().includes(searchVal) ||
+          p.phone.includes(searchVal)
+        );
+      });
+
+      countBadge.textContent = filtered.length;
+
+      if (filtered.length === 0) {
+        container.innerHTML = `
+          <div class="text-center py-12 text-gray-400">
+            <i data-lucide="user-search" class="w-12 h-12 mx-auto mb-2 opacity-50"></i>
+            <p class="font-bold text-sm">لا يوجد مسجلون حالياً</p>
+          </div>
+        `;
+        lucide.createIcons();
+        return;
+      }
+
+      container.innerHTML = filtered.map(p => {
+        const ev = appState.events.find(e => e.id === p.eventId);
+        const paid = getParticipantPaid(p);
+        const rem = getParticipantRemaining(p);
+
+        let finBadge = `<span class="text-[11px] font-bold px-2.5 py-0.5 rounded-full bg-brand-sky/25 text-brand-dark dark:text-brand-sky">مجاني</span>`;
+        if (p.netFee > 0) {
+          finBadge = rem === 0
+            ? `<span class="text-[11px] font-bold px-2.5 py-0.5 rounded-full bg-emerald-100 text-emerald-700">خالص (${formatNumber(paid)})</span>`
+            : `<span class="text-[11px] font-bold px-2.5 py-0.5 rounded-full bg-amber-100 text-amber-800">متبقي: ${formatNumber(rem)}</span>`;
+        }
+
+        const certBadge = p.wantsCert
+          ? `<span class="text-[11px] font-bold px-2.5 py-0.5 rounded-full bg-purple-100 text-purple-800">🎓 شهادة</span>`
+          : '';
+
+        return `
+          <div class="border border-gray-200 dark:border-brand-sky/20 hover:border-brand-sky rounded-2xl p-4 transition bg-white dark:bg-brand-deeper/70 flex flex-col sm:flex-row sm:items-center justify-between gap-3">
+            <div class="space-y-1">
+              <div class="flex flex-wrap items-center gap-2">
+                <span class="bg-brand-dark dark:bg-brand-sky text-brand-glow dark:text-brand-dark font-black text-xs px-2.5 py-0.5 rounded-lg">${p.id}</span>
+                <h4 class="font-extrabold text-base text-brand-dark dark:text-white">${p.nameAr}</h4>
+                ${finBadge}
+                ${certBadge}
+              </div>
+              <p class="text-xs text-gray-500 dark:text-gray-300 font-medium" dir="ltr">${p.nameEn}</p>
+              <div class="flex flex-wrap items-center gap-3 text-xs text-gray-600 dark:text-brand-sky pt-1">
+                <span>📞 ${p.phone}</span>
+                <span>💬 +${p.whatsapp}</span>
+                ${ev && targetEvIds.length > 1 ? `<span class="bg-gray-100 dark:bg-brand-dark px-2 py-0.5 rounded text-[11px]">${ev.name}</span>` : ''}
+              </div>
+            </div>
+
+            <div class="flex items-center gap-1.5 self-end sm:self-center shrink-0">
+              <button onclick="openQrBadgeModal('${p.id}')" title="عرض كود QR" class="p-2.5 rounded-xl bg-brand-dark dark:bg-brand-sky text-white dark:text-brand-dark transition cursor-pointer">
+                <i data-lucide="qr-code" class="w-4 h-4"></i>
+              </button>
+              <button onclick="shareParticipantWhatsApp('${p.id}')" title="إرسال واتساب" class="p-2.5 rounded-xl bg-emerald-600 hover:bg-emerald-700 text-white transition cursor-pointer">
+                <i data-lucide="send" class="w-4 h-4"></i>
+              </button>
+              <button onclick="editParticipant('${p.id}')" title="تعديل" class="p-2.5 rounded-xl bg-gray-100 dark:bg-brand-dark text-brand-dark dark:text-white transition cursor-pointer">
+                <i data-lucide="edit-2" class="w-4 h-4"></i>
+              </button>
+              <button onclick="deleteParticipant('${p.id}')" title="حذف" class="p-2.5 rounded-xl bg-rose-50 dark:bg-rose-950 text-rose-600 transition cursor-pointer">
+                <i data-lucide="trash-2" class="w-4 h-4"></i>
+              </button>
+            </div>
+          </div>
+        `;
+      }).join('');
+
+      lucide.createIcons();
+    }
+
+    function openQrBadgeModal(participantId) {
+      const p = appState.participants.find(item => item.id === participantId);
+      if (!p) return;
+      const ev = appState.events.find(e => e.id === p.eventId) || getActiveEvent();
+
+      const modal = document.getElementById('qr-badge-modal');
+      const content = document.getElementById('qr-badge-content');
+
+      content.innerHTML = `
+        <div class="bg-brand-dark text-white rounded-2xl p-4 border border-brand-sky">
+          <p class="text-xs text-brand-sky font-bold">حضّرني • فريق نيو ستيب (NEW STEP)</p>
+          <h4 class="text-lg font-black mt-0.5">${ev.name}</h4>
+          <p class="text-xs text-brand-glow mt-1">التوقيت: من ${formatTime12(ev.timeFrom)} إلى ${formatTime12(ev.timeTo)}</p>
+        </div>
+
+        <div class="bg-white p-4 rounded-2xl border-2 border-dashed border-brand-dark/30 inline-block mx-auto">
+          <div id="qrcode-canvas-target" class="flex justify-center"></div>
+          <p class="font-black text-lg text-brand-dark tracking-widest mt-2">${p.id}</p>
+        </div>
+
+        <div class="space-y-1">
+          <h5 class="font-black text-lg text-brand-dark dark:text-white">${p.nameAr}</h5>
+          <p class="text-xs text-gray-500 dark:text-brand-sky font-semibold">${p.nameEn}</p>
+        </div>
+
+        <div class="grid grid-cols-2 gap-2.5 pt-2">
+          <button onclick="downloadQrImage('${p.id}', '${p.nameAr}')" class="flex items-center justify-center gap-1.5 bg-brand-dark dark:bg-brand-sky text-white dark:text-brand-dark font-black text-xs py-3 px-3 rounded-xl transition cursor-pointer">
+            <i data-lucide="download" class="w-4 h-4"></i>
+            <span>حفظ صورة QR</span>
+          </button>
+          <button onclick="shareParticipantWhatsApp('${p.id}')" class="flex items-center justify-center gap-1.5 bg-emerald-600 hover:bg-emerald-700 text-white font-black text-xs py-3 px-3 rounded-xl transition cursor-pointer">
+            <i data-lucide="message-circle" class="w-4 h-4"></i>
+            <span>إرسال واتساب</span>
+          </button>
+        </div>
+      `;
+
+      modal.classList.remove('hidden');
+      modal.classList.add('flex');
+      pushHistoryStateSafe({ view: currentView, modal: 'qr-badge-modal' });
+
+      const qrContainer = document.getElementById('qrcode-canvas-target');
+      qrContainer.innerHTML = '';
+      new QRCode(qrContainer, {
+        text: p.id,
+        width: 170,
+        height: 170,
+        colorDark: '#0E2B38',
+        colorLight: '#ffffff',
+        correctLevel: QRCode.CorrectLevel.H
+      });
+
+      lucide.createIcons();
+    }
+
+    function downloadQrImage(codeId, participantName) {
+      const container = document.getElementById('qrcode-canvas-target');
+      const canvas = container.querySelector('canvas');
+      const img = container.querySelector('img');
+      const dataUrl = canvas ? canvas.toDataURL('image/png') : (img ? img.src : '');
+      if (!dataUrl) return;
+
+      const link = document.createElement('a');
+      link.href = dataUrl;
+      link.download = `QR_${codeId}_${participantName.replace(/\s+/g, '_')}.png`;
+      document.body.appendChild(link);
+      link.click();
+      document.body.removeChild(link);
+    }
+
+    function shareParticipantWhatsApp(participantId) {
+      const p = appState.participants.find(item => item.id === participantId);
+      if (!p) return;
+      const ev = appState.events.find(e => e.id === p.eventId) || getActiveEvent();
+
+      const paid = getParticipantPaid(p);
+      const rem = getParticipantRemaining(p);
+      let finLine = '• الحالة: فعالية مجانية 🎁';
+      if (p.netFee > 0) {
+        finLine = rem === 0
+          ? `• الرسوم: خالص بالكامل ✅ (${formatNumber(paid)})`
+          : `• الرسوم: مدفوع (${formatNumber(paid)}) | المتبقي (${formatNumber(rem)}) ⏳`;
+      }
+
+      const msg = [
+        `مرحباً بك أ/ *${p.nameAr}* في *فريق نيو ستيب (NEW STEP)* 🌟`,
+        `تم تأكيد تسجيلك عبر نظام *حضّرني* في:`,
+        `📌 *${ev.name}* (${ev.type})`,
+        `🗓 الفترة: من ${ev.dateFrom} إلى ${ev.dateTo}`,
+        `⏰ التوقيت: من ${formatTime12(ev.timeFrom)} إلى ${formatTime12(ev.timeTo)}`,
+        `🆔 *كود التحضير الخاص بك:* \`${p.id}\``,
+        finLine,
+        p.wantsCert ? `🎓 الشهادة: مسجل لطلب شهادة` : ``,
+        ``,
+        `يرجى إبراز كود الدخول عند بوابة القاعة للتحضير السريع 🚀`
+      ].filter(Boolean).join('\n');
+
+      window.open(`https://wa.me/${p.whatsapp}?text=${encodeURIComponent(msg)}`, '_blank');
+    }
+
+    // -----------------------------------------------------------------------
+    // SECTION 3: SMART ATTENDANCE
+    // -----------------------------------------------------------------------
+    async function startQrScanner() {
+      if (isScannerRunning) return;
+      const placeholder = document.getElementById('scanner-placeholder');
+      const startBtn = document.getElementById('start-scanner-btn');
+      const stopBtn = document.getElementById('stop-scanner-btn');
+
+      try {
+        html5QrCodeInstance = new Html5Qrcode('qr-reader');
+        placeholder.classList.add('hidden');
+        startBtn.classList.add('hidden');
+        stopBtn.classList.remove('hidden');
+
+        await html5QrCodeInstance.start(
+          { facingMode: 'environment' },
+          { fps: 10, qrbox: { width: 200, height: 200 } },
+          (decodedText) => {
+            const now = Date.now();
+            if (decodedText === lastScannedCode && (now - lastScannedTime) < 3000) return;
+            lastScannedCode = decodedText;
+            lastScannedTime = now;
+            processAttendanceCheckIn(decodedText.trim());
+          },
+          () => {}
+        );
+        isScannerRunning = true;
+      } catch (err) {
+        placeholder.classList.remove('hidden');
+        startBtn.classList.remove('hidden');
+        stopBtn.classList.add('hidden');
+        showToast('تعذر فتح الكاميرا، استخدم الجدول المقابل أو الإدخال السريع', 'error');
+      }
+    }
+
+    async function stopQrScanner() {
+      if (html5QrCodeInstance && isScannerRunning) {
+        try {
+          await html5QrCodeInstance.stop();
+          await html5QrCodeInstance.clear();
+        } catch (e) {}
+      }
+      isScannerRunning = false;
+      document.getElementById('scanner-placeholder').classList.remove('hidden');
+      document.getElementById('start-scanner-btn').classList.remove('hidden');
+      document.getElementById('stop-scanner-btn').classList.add('hidden');
+    }
+
+    function handleManualAttendance() {
+      const input = document.getElementById('manual-qr-input');
+      const q = input.value.trim();
+      if (!q) return;
+      processAttendanceCheckIn(q);
+      input.value = '';
+    }
+
+    function processAttendanceCheckIn(codeOrName) {
+      const targetEvIds = getEffectiveEventIds();
+      const q = codeOrName.toLowerCase();
+
+      const participant = appState.participants.find(p =>
+        targetEvIds.includes(p.eventId) &&
+        (p.id.toLowerCase() === q || p.nameAr.toLowerCase().includes(q))
+      );
+
+      const resultCard = document.getElementById('scan-result-card');
+      resultCard.classList.remove('hidden');
+
+      if (!participant) {
+        playScanBeep(false);
+        resultCard.className = 'rounded-3xl p-5 shadow-md border-2 bg-rose-50 border-rose-500 text-rose-900';
+        resultCard.innerHTML = `
+          <div class="flex items-center gap-3">
+            <i data-lucide="x-circle" class="w-8 h-8 text-rose-600 shrink-0"></i>
+            <div>
+              <h4 class="font-black text-base">غير مسجل في الفعالية المختارة!</h4>
+              <p class="text-xs mt-0.5">الكود أو الاسم "${codeOrName}" غير موجود.</p>
+            </div>
+          </div>
+        `;
+        lucide.createIcons();
+        return;
+      }
+
+      const targetDate = document.getElementById('attendance-date-filter').value || getTodayISO();
+      const existingLog = appState.attendance.find(a =>
+        a.eventId === participant.eventId &&
+        a.participantId === participant.id &&
+        a.date === targetDate
+      );
+
+      const nowTime = new Date().toLocaleTimeString('ar-EG', { hour: '2-digit', minute: '2-digit' });
+      if (!existingLog) {
+        appState.attendance.unshift({
+          id: 'ATT-' + Date.now(),
+          eventId: participant.eventId,
+          participantId: participant.id,
+          date: targetDate,
+          time: nowTime
+        });
+        saveState();
+      }
+
+      playScanBeep(true);
+      const rem = getParticipantRemaining(participant);
+      if (rem === 0) {
+        resultCard.className = 'rounded-3xl p-5 shadow-md border-2 bg-emerald-50 border-emerald-500 text-emerald-950';
+        resultCard.innerHTML = `
+          <div class="flex items-start gap-3">
+            <span class="text-2xl">✅</span>
+            <div>
+              <span class="text-xs font-extrabold px-2 py-0.5 rounded-full bg-emerald-200 text-emerald-900">خالص الرسوم • مسموح بالدخول</span>
+              <h4 class="font-black text-lg text-brand-dark mt-1">${participant.nameAr} (${participant.id})</h4>
+              <p class="text-xs text-emerald-800 font-bold mt-0.5">وقت الدخول: ${existingLog ? existingLog.time : nowTime}</p>
+            </div>
+          </div>
+        `;
+      } else {
+        resultCard.className = 'rounded-3xl p-5 shadow-md border-2 bg-amber-50 border-amber-500 text-amber-950';
+        resultCard.innerHTML = `
+          <div class="flex items-start gap-3">
+            <span class="text-2xl">⚠️</span>
+            <div>
+              <span class="text-xs font-extrabold px-2 py-0.5 rounded-full bg-amber-200 text-amber-900">تنبيه مالي • متبقي عليه قسط / رسوم شهادة</span>
+              <h4 class="font-black text-lg text-brand-dark mt-1">${participant.nameAr} (${participant.id})</h4>
+              <p class="text-sm font-black text-amber-800 mt-0.5">المبلغ المتبقي: ${formatNumber(rem)}</p>
+            </div>
+          </div>
+        `;
+      }
+
+      renderAttendanceSection();
+      lucide.createIcons();
+    }
+
+    function toggleParticipantAttendanceRow(participantId) {
+      const p = appState.participants.find(item => item.id === participantId);
+      if (!p) return;
+      const targetDate = document.getElementById('attendance-date-filter').value || getTodayISO();
+
+      const existingIdx = appState.attendance.findIndex(a =>
+        a.eventId === p.eventId && a.participantId === p.id && a.date === targetDate
+      );
+
+      if (existingIdx !== -1) {
+        appState.attendance.splice(existingIdx, 1);
+        showToast(`تم إلغاء تحضير ${p.nameAr}`, 'info');
+      } else {
+        const nowTime = new Date().toLocaleTimeString('ar-EG', { hour: '2-digit', minute: '2-digit' });
+        appState.attendance.unshift({
+          id: 'ATT-' + Date.now(),
+          eventId: p.eventId,
+          participantId: p.id,
+          date: targetDate,
+          time: nowTime
+        });
+        playScanBeep(true);
+        showToast(`تم تحضير ${p.nameAr} ✓`, 'success');
+      }
+
+      saveState();
+      renderAttendanceSection();
+    }
+
+    function renderAttendanceSection() {
+      const targetEvIds = getEffectiveEventIds();
+      const selectedDate = document.getElementById('attendance-date-filter').value || getTodayISO();
+      const q = (document.getElementById('attendance-search-input')?.value || '').trim().toLowerCase();
+
+      const allRegistered = appState.participants.filter(p => targetEvIds.includes(p.eventId));
+      const dayLogs = appState.attendance.filter(a => targetEvIds.includes(a.eventId) && a.date === selectedDate);
+
+      const presentSet = new Set(dayLogs.map(l => l.participantId));
+      const totalCount = allRegistered.length;
+      const presentCount = allRegistered.filter(p => presentSet.has(p.id)).length;
+      const absentCount = Math.max(0, totalCount - presentCount);
+      const rate = totalCount > 0 ? Math.round((presentCount / totalCount) * 100) : 0;
+
+      document.getElementById('att-stat-total').textContent = totalCount;
+      document.getElementById('att-stat-present').textContent = presentCount;
+      document.getElementById('att-stat-absent').textContent = absentCount;
+      document.getElementById('att-stat-rate').textContent = `${rate}%`;
+
+      const filteredList = allRegistered.filter(p => {
+        if (!q) return true;
+        return p.nameAr.toLowerCase().includes(q) || p.id.toLowerCase().includes(q);
+      });
+
+      const tbody = document.getElementById('attendance-table-body');
+      if (filteredList.length === 0) {
+        tbody.innerHTML = `<tr><td colspan="5" class="text-center py-10 text-gray-400 font-bold text-sm">لا يوجد طلاب مطابقون</td></tr>`;
+        return;
+      }
+
+      tbody.innerHTML = filteredList.map(p => {
+        const log = dayLogs.find(l => l.participantId === p.id);
+        const isPresent = !!log;
+
+        return `
+          <tr class="hover:bg-gray-50 dark:hover:bg-brand-deeper/50 transition ${isPresent ? 'bg-emerald-50/40 dark:bg-emerald-950/20' : ''}">
+            <td class="py-3 px-3 font-black text-xs text-brand-dark dark:text-brand-sky">${p.id}</td>
+            <td class="py-3 px-3 font-bold text-brand-dark dark:text-white">${p.nameAr}</td>
+            <td class="py-3 px-3 text-center">
+              ${isPresent
+                ? `<span class="inline-flex items-center gap-1 px-2.5 py-0.5 rounded-full text-xs font-black bg-emerald-100 text-emerald-800">✓ حاضر</span>`
+                : `<span class="inline-flex items-center gap-1 px-2.5 py-0.5 rounded-full text-xs font-black bg-rose-100 text-rose-700">✗ غائب</span>`}
+            </td>
+            <td class="py-3 px-3 text-xs font-bold text-gray-500 dark:text-gray-300">${isPresent ? log.time : '-'}</td>
+            <td class="py-3 px-3 text-center">
+              <button onclick="toggleParticipantAttendanceRow('${p.id}')" class="px-3.5 py-1.5 rounded-xl text-xs font-extrabold transition cursor-pointer ${isPresent ? 'bg-rose-100 hover:bg-rose-200 text-rose-700' : 'bg-emerald-600 hover:bg-emerald-700 text-white'}">
+                ${isPresent ? 'إلغاء' : 'تحضير ✓'}
+              </button>
+            </td>
+          </tr>
+        `;
+      }).join('');
+    }
+
+    // -----------------------------------------------------------------------
+    // SECTION 4: FEES, PAYMENTS & CERTIFICATES
+    // -----------------------------------------------------------------------
+    function toggleParticipantCertFlag(participantId) {
+      const p = appState.participants.find(item => item.id === participantId);
+      if (!p) return;
+      const ev = appState.events.find(e => e.id === p.eventId);
+      if (!ev) return;
+
+      p.wantsCert = !p.wantsCert;
+      const certFee = Number(ev.certFee) || 0;
+
+      if (p.wantsCert && certFee > 0) {
+        p.baseFee = (Number(p.baseFee) || 0) + certFee;
+        p.netFee = (Number(p.netFee) || 0) + certFee;
+      } else if (!p.wantsCert && certFee > 0) {
+        p.baseFee = Math.max(0, (Number(p.baseFee) || 0) - certFee);
+        p.netFee = Math.max(0, (Number(p.netFee) || 0) - certFee);
+      }
+
+      saveState();
+      renderPaymentsSection();
+      showToast(p.wantsCert ? `تم تفعيل طلب الشهادة لـ ${p.nameAr}` : `تم إلغاء طلب الشهادة لـ ${p.nameAr}`, 'info');
+    }
+
+    function renderPaymentsSection() {
+      const targetEvIds = getEffectiveEventIds();
+      const filterVal = document.getElementById('payment-status-filter').value;
+      const tbody = document.getElementById('payments-table-body');
+
+      const list = appState.participants.filter(p => targetEvIds.includes(p.eventId)).filter(p => {
+        const rem = getParticipantRemaining(p);
+        if (filterVal === 'wants_cert') return !!p.wantsCert;
+        if (filterVal === 'remaining') return rem > 0;
+        if (filterVal === 'paid') return rem === 0;
+        return true;
+      });
+
+      if (list.length === 0) {
+        tbody.innerHTML = `<tr><td colspan="8" class="text-center py-10 text-gray-400 font-bold text-sm">لا توجد بيانات مطابقة</td></tr>`;
+        return;
+      }
+
+      tbody.innerHTML = list.map(p => {
+        const paid = getParticipantPaid(p);
+        const rem = getParticipantRemaining(p);
+
+        return `
+          <tr class="hover:bg-gray-50 dark:hover:bg-brand-deeper/50 transition">
+            <td class="py-3.5 px-4 font-black text-brand-dark dark:text-brand-sky text-xs">${p.id}</td>
+            <td class="py-3.5 px-4 font-bold text-brand-dark dark:text-white">${p.nameAr}</td>
+            <td class="py-3.5 px-4 text-center">
+              <button onclick="toggleParticipantCertFlag('${p.id}')" class="px-3 py-1 rounded-full text-xs font-extrabold cursor-pointer transition ${p.wantsCert ? 'bg-purple-600 text-white' : 'bg-gray-200 dark:bg-brand-deeper text-gray-600 dark:text-gray-300'}">
+                ${p.wantsCert ? '🎓 نعم (مُفعّل)' : 'لا'}
+              </button>
+            </td>
+            <td class="py-3.5 px-4 font-bold">${formatNumber(p.netFee)}</td>
+            <td class="py-3.5 px-4 font-black text-emerald-600 dark:text-emerald-400">${formatNumber(paid)}</td>
+            <td class="py-3.5 px-4 font-black ${rem > 0 ? 'text-amber-600' : 'text-gray-400'}">${formatNumber(rem)}</td>
+            <td class="py-3.5 px-4">
+              ${p.netFee === 0
+                ? `<span class="px-2.5 py-0.5 rounded-full text-xs font-bold bg-brand-sky/25 text-brand-dark dark:text-brand-sky">مجاني</span>`
+                : (rem === 0
+                  ? `<span class="px-2.5 py-0.5 rounded-full text-xs font-bold bg-emerald-100 text-emerald-800">خالص</span>`
+                  : `<span class="px-2.5 py-0.5 rounded-full text-xs font-bold bg-amber-100 text-amber-800">متبقي قسط</span>`)}
+            </td>
+            <td class="py-3.5 px-4 text-center">
+              ${rem > 0 ? `
+                <button onclick="openAddPaymentModal('${p.id}')" class="bg-emerald-600 hover:bg-emerald-700 text-white text-xs font-bold px-3 py-1.5 rounded-xl cursor-pointer">
+                  + دفعة
+                </button>
+              ` : '<span class="text-xs text-gray-400">-</span>'}
+            </td>
+          </tr>
+        `;
+      }).join('');
+    }
+
+    function openAddPaymentModal(preselectId = null) {
+      const targetEvIds = getEffectiveEventIds();
+      const list = appState.participants.filter(p => targetEvIds.includes(p.eventId));
+      if (list.length === 0) {
+        showToast('لا يوجد متدربون مسجلون', 'warning');
+        return;
+      }
+
+      const select = document.getElementById('payment-participant-select');
+      select.innerHTML = list.map(p => `
+        <option value="${p.id}" ${p.id === preselectId ? 'selected' : ''}>
+          ${p.nameAr} (${p.id}) - المتبقي: ${formatNumber(getParticipantRemaining(p))}
+        </option>
+      `).join('');
+
+      document.getElementById('payment-new-amount').value = '';
+      document.getElementById('payment-note-input').value = '';
+      updatePaymentModalSummary();
+
+      const modal = document.getElementById('payment-modal');
+      modal.classList.remove('hidden');
+      modal.classList.add('flex');
+      pushHistoryStateSafe({ view: currentView, modal: 'payment-modal' });
+    }
+
+    function updatePaymentModalSummary() {
+      const pId = document.getElementById('payment-participant-select').value;
+      const p = appState.participants.find(item => item.id === pId);
+      const box = document.getElementById('payment-modal-summary');
+      if (!p) return;
+
+      box.innerHTML = `
+        <div class="flex justify-between"><span>المطلوب الكلي:</span><strong>${formatNumber(p.netFee)}</strong></div>
+        <div class="flex justify-between text-emerald-600"><span>المدفوع سابقاً:</span><strong>${formatNumber(getParticipantPaid(p))}</strong></div>
+        <div class="flex justify-between text-amber-600 border-t border-gray-200 dark:border-brand-sky/20 pt-1"><span>المتبقي:</span><strong>${formatNumber(getParticipantRemaining(p))}</strong></div>
+      `;
+    }
+
+    function handleAddPaymentSubmit(e) {
+      e.preventDefault();
+      const pId = document.getElementById('payment-participant-select').value;
+      const amount = parseFloat(document.getElementById('payment-new-amount').value) || 0;
+      const note = document.getElementById('payment-note-input').value.trim() || 'دفعة رسوم';
+
+      const p = appState.participants.find(item => item.id === pId);
+      if (!p || amount <= 0) return;
+
+      p.payments = p.payments || [];
+      p.payments.push({
+        id: 'PAY-' + Date.now(),
+        amount,
+        date: new Date().toISOString(),
+        note
+      });
+
+      saveState();
+      closeModal('payment-modal');
+      renderPaymentsSection();
+      showToast(`تم تسجيل دفعة بمبلغ ${formatNumber(amount)} بنجاح`, 'success');
+    }
+
+    // -----------------------------------------------------------------------
+    // SECTION 5: FINANCE & PROMO CODES
+    // -----------------------------------------------------------------------
+    function setFinanceScope(scope) {
+      financeScope = scope;
+      const btnActive = document.getElementById('fin-scope-active');
+      const btnAll = document.getElementById('fin-scope-all');
+      if (scope === 'active') {
+        btnActive.className = 'px-4 py-2 rounded-xl text-xs font-bold bg-brand-dark dark:bg-brand-sky text-white dark:text-brand-dark cursor-pointer';
+        btnAll.className = 'px-4 py-2 rounded-xl text-xs font-bold bg-gray-100 dark:bg-brand-deeper text-gray-700 dark:text-gray-200 cursor-pointer';
+      } else {
+        btnAll.className = 'px-4 py-2 rounded-xl text-xs font-bold bg-brand-dark dark:bg-brand-sky text-white dark:text-brand-dark cursor-pointer';
+        btnActive.className = 'px-4 py-2 rounded-xl text-xs font-bold bg-gray-100 dark:bg-brand-deeper text-gray-700 dark:text-gray-200 cursor-pointer';
+      }
+      renderFinanceSection();
+    }
+
+    function renderFinanceSection() {
+      const targetEvIds = getEffectiveEventIds();
+      const targetParticipants = financeScope === 'active'
+        ? appState.participants.filter(p => targetEvIds.includes(p.eventId))
+        : appState.participants;
+
+      const targetHandovers = financeScope === 'active'
+        ? appState.handovers.filter(h => targetEvIds.includes(h.eventId))
+        : appState.handovers;
+
+      let totalCollected = 0, totalRemaining = 0, totalDiscounts = 0;
+      const promoStatsMap = {};
+
+      targetParticipants.forEach(p => {
+        totalCollected += getParticipantPaid(p);
+        totalRemaining += getParticipantRemaining(p);
+        const disc = Number(p.discountAmount) || 0;
+        totalDiscounts += disc;
+
+        if (p.promoCode) {
+          if (!promoStatsMap[p.promoCode]) {
+            promoStatsMap[p.promoCode] = { count: 0, amount: 0 };
+          }
+          promoStatsMap[p.promoCode].count += 1;
+          promoStatsMap[p.promoCode].amount += disc;
+        }
+      });
+
+      const totalHanded = targetHandovers.reduce((sum, h) => sum + (Number(h.amount) || 0), 0);
+      document.getElementById('fin-total-collected').textContent = formatNumber(totalCollected);
+      document.getElementById('fin-total-remaining').textContent = formatNumber(totalRemaining);
+      document.getElementById('fin-total-handed').textContent = formatNumber(totalHanded);
+      document.getElementById('fin-custody-balance').textContent = formatNumber(totalCollected - totalHanded);
+      document.getElementById('fin-total-discounts').textContent = formatNumber(totalDiscounts);
+
+      const breakdownEl = document.getElementById('finance-promo-breakdown');
+      const usedCodes = Object.keys(promoStatsMap);
+      if (usedCodes.length === 0) {
+        breakdownEl.innerHTML = `<p class="col-span-full text-xs text-gray-400 text-center py-2">لم تُستخدم أي أكواد خصم في هذا النطاق بعد.</p>`;
+      } else {
+        breakdownEl.innerHTML = usedCodes.map(code => {
+          const promoMeta = appState.promoCodes.find(pm => pm.code === code);
+          return `
+            <div class="p-3 rounded-2xl border border-brand-sky/40 bg-brand-soft dark:bg-brand-deeper text-xs">
+              <div class="flex items-center justify-between">
+                <span class="bg-brand-dark text-brand-glow font-black px-2.5 py-0.5 rounded-lg">${code}</span>
+                <span class="font-black text-purple-700 dark:text-purple-400">خصم: ${formatNumber(promoStatsMap[code].amount)}</span>
+              </div>
+              <p class="text-gray-600 dark:text-brand-sky mt-1.5 font-semibold">عدد المستفيدين: <strong>${promoStatsMap[code].count}</strong></p>
+              ${promoMeta?.issuer ? `<p class="text-[11px] text-gray-500 dark:text-gray-300 mt-0.5">قرار الإصدار: ${promoMeta.issuer}</p>` : ''}
+            </div>
+          `;
+        }).join('');
+      }
+
+      renderHandoversList(targetHandovers);
+      renderPromoCodesList();
+      lucide.createIcons();
+    }
+
+    function handleAddHandover(e) {
+      e.preventDefault();
+      const activeEv = getActiveEvent();
+      if (!activeEv) return;
+
+      const amount = parseFloat(document.getElementById('handover-amount').value) || 0;
+      const receiver = document.getElementById('handover-receiver').value.trim();
+      const notes = document.getElementById('handover-notes').value.trim();
+      if (amount <= 0) return;
+
+      appState.handovers.unshift({
+        id: 'HND-' + Date.now(),
+        eventId: activeEv.id,
+        amount,
+        receiver,
+        notes,
+        date: new Date().toISOString()
+      });
+
+      saveState();
+      document.getElementById('handover-amount').value = '';
+      document.getElementById('handover-receiver').value = '';
+      document.getElementById('handover-notes').value = '';
+      renderFinanceSection();
+      showToast('تم تسجيل عملية تسليم المبلغ للإدارة', 'success');
+    }
+
+    function renderHandoversList(handovers) {
+      const container = document.getElementById('handovers-list-container');
+      if (handovers.length === 0) {
+        container.innerHTML = `<p class="text-center text-gray-400 text-xs py-6">لا توجد عمليات تسليم مسجلة.</p>`;
+        return;
+      }
+
+      container.innerHTML = handovers.map(h => `
+        <div class="flex items-center justify-between p-3 rounded-2xl border border-gray-200 dark:border-brand-sky/20 bg-gray-50 dark:bg-brand-deeper/70 text-xs">
+          <div>
+            <span class="font-black text-sm text-brand-dark dark:text-white">${formatNumber(h.amount)}</span>
+            <span class="text-gray-500 dark:text-brand-sky"> • المستلم: <strong>${h.receiver}</strong></span>
+            <p class="text-gray-400 mt-0.5">${new Date(h.date).toLocaleString('ar-EG')}</p>
+          </div>
+          <button onclick="deleteHandover('${h.id}')" class="p-2 text-gray-400 hover:text-rose-600 cursor-pointer">
+            <i data-lucide="trash-2" class="w-4 h-4"></i>
+          </button>
+        </div>
+      `).join('');
+    }
+
+    function deleteHandover(id) {
+      appState.handovers = appState.handovers.filter(h => h.id !== id);
+      saveState();
+      renderFinanceSection();
+    }
+
+    function handleAddPromoCode(e) {
+      e.preventDefault();
+      const code = document.getElementById('promo-code-input').value.trim().toUpperCase();
+      const type = document.getElementById('promo-type-input').value;
+      const value = parseFloat(document.getElementById('promo-value-input').value) || 0;
+      const issuer = document.getElementById('promo-issuer-input').value.trim();
+      const eventId = document.getElementById('promo-event-scope').value;
+
+      if (!code || value <= 0) return;
+      if (appState.promoCodes.some(p => p.code.toUpperCase() === code)) {
+        showToast('هذا الكود موجود مسبقاً!', 'error');
+        return;
+      }
+
+      appState.promoCodes.unshift({
+        id: 'PRM-' + Date.now(),
+        code,
+        type,
+        value,
+        issuer,
+        eventId,
+        active: true
+      });
+
+      saveState();
+      document.getElementById('promo-code-input').value = '';
+      document.getElementById('promo-value-input').value = '';
+      document.getElementById('promo-issuer-input').value = '';
+      renderFinanceSection();
+      showToast(`تم اعتماد كود الخصم ${code} بنجاح`, 'success');
+    }
+
+    function renderPromoCodesList() {
+      const scopeSelect = document.getElementById('promo-event-scope');
+      if (scopeSelect) {
+        scopeSelect.innerHTML = `<option value="all">صالح لجميع الفعاليات</option>` +
+          appState.events.map(ev => `<option value="${ev.id}">خاص بـ: ${ev.name}</option>`).join('');
+      }
+
+      const container = document.getElementById('promo-codes-list-container');
+      if (appState.promoCodes.length === 0) {
+        container.innerHTML = `<p class="text-center text-gray-400 text-xs py-6">لا توجد أكواد خصم منشأة.</p>`;
+        return;
+      }
+
+      container.innerHTML = appState.promoCodes.map(promo => `
+        <div class="flex items-center justify-between p-3 rounded-2xl border border-brand-sky/40 bg-brand-soft/60 dark:bg-brand-deeper/70 text-xs">
+          <div>
+            <div class="flex items-center gap-2">
+              <span class="bg-brand-dark text-brand-glow font-black px-2.5 py-0.5 rounded-lg">${promo.code}</span>
+              <span class="font-extrabold text-emerald-600 dark:text-emerald-400">خصم ${promo.type === 'percent' ? promo.value + '%' : formatNumber(promo.value)}</span>
+            </div>
+            <p class="text-gray-600 dark:text-brand-sky mt-1 font-semibold">قرار الإصدار: ${promo.issuer || 'غير محدد'}</p>
+          </div>
+          <div class="flex items-center gap-1.5">
+            <button onclick="togglePromoActive('${promo.id}')" class="px-2.5 py-1 rounded-lg font-bold cursor-pointer ${promo.active ? 'bg-emerald-100 text-emerald-800' : 'bg-gray-300 text-gray-700'}">
+              ${promo.active ? 'مُفعّل' : 'متوقف'}
+            </button>
+            <button onclick="deletePromoCode('${promo.id}')" class="p-1.5 text-gray-400 hover:text-rose-600 cursor-pointer">
+              <i data-lucide="trash-2" class="w-4 h-4"></i>
+            </button>
+          </div>
+        </div>
+      `).join('');
+    }
+
+    function togglePromoActive(id) {
+      const p = appState.promoCodes.find(item => item.id === id);
+      if (p) {
+        p.active = !p.active;
+        saveState();
+        renderFinanceSection();
+      }
+    }
+
+    function deletePromoCode(id) {
+      appState.promoCodes = appState.promoCodes.filter(item => item.id !== id);
+      saveState();
+      renderFinanceSection();
+    }
+
+    // -----------------------------------------------------------------------
+    // EXPORTS & UNIVERSAL IMPORT (CERTIFICATES, CUSTOMER SERVICE, SYNC)
+    // -----------------------------------------------------------------------
+    function openCustomerServiceExportModal() {
+      const targetEvIds = getEffectiveEventIds();
+      const list = appState.participants.filter(p => targetEvIds.includes(p.eventId));
+
+      if (list.length === 0) {
+        showToast('لا يوجد متدربون مسجلون للتصدير', 'warning');
+        return;
+      }
+
+      const activeEv = getActiveEvent();
+      const lines = [
+        `📋 قائمة المتدربين لخدمة العملاء - تطبيق حضّرني`,
+        `${TEAM_ROLE_LABEL}`,
+        `الفعالية: ${activeEv ? activeEv.name : ''}`,
+        `------------------------------------`,
+        ...list.map((p, i) => `${i + 1}. ${p.nameAr} : +${p.whatsapp}`),
+        `------------------------------------`,
+        DEV_SIGNATURE
+      ];
+
+      document.getElementById('cs-export-textarea').value = lines.join('\n');
+      const modal = document.getElementById('cs-export-modal');
+      modal.classList.remove('hidden');
+      modal.classList.add('flex');
+      pushHistoryStateSafe({ view: currentView, modal: 'cs-export-modal' });
+      lucide.createIcons();
+    }
+
+    function copyCustomerServiceText() {
+      const textarea = document.getElementById('cs-export-textarea');
+      textarea.select();
+      document.execCommand('copy');
+      showToast('تم نسخ قائمة خدمة العملاء بنجاح', 'success');
+    }
+
+    function downloadCustomerServiceTxt() {
+      const text = document.getElementById('cs-export-textarea').value;
+      const blob = new Blob([text], { type: 'text/plain;charset=utf-8' });
+      const url = URL.createObjectURL(blob);
+      const a = document.createElement('a');
+      a.href = url;
+      a.download = `حضّرني_خدمة_العملاء_${getTodayISO()}.txt`;
+      document.body.appendChild(a);
+      a.click();
+      document.body.removeChild(a);
+      URL.revokeObjectURL(url);
+      showToast('تم تنزيل ملف خدمة العملاء (.txt)', 'success');
+    }
+
+    function shareCustomerServiceWhatsApp() {
+      const text = document.getElementById('cs-export-textarea').value;
+      window.open(`https://wa.me/?text=${encodeURIComponent(text)}`, '_blank');
+    }
+
+    function exportCertificatesExcel() {
+      const targetEvIds = getEffectiveEventIds();
+      // Export ONLY students who requested a certificate AND have paid its fees (rem === 0)
+      const certStudents = appState.participants.filter(p =>
+        targetEvIds.includes(p.eventId) && p.wantsCert && getParticipantRemaining(p) === 0
+      );
+
+      if (certStudents.length === 0) {
+        showToast('لا يوجد طلاب مستوفون للشهادة (مُفعّل + خالص الرسوم) حالياً!', 'warning');
+        return;
+      }
+
+      const activeEv = getActiveEvent();
+      const rows = [
+        [`تطبيق حضّرني (Hadderni) | ${TEAM_ROLE_LABEL} - كشف إصدار الشهادات`],
+        [`الفعالية: ${activeEv ? activeEv.name : ''}`, `عدد المستحقين للشهادة: ${certStudents.length}`, `التاريخ: ${getTodayISO()}`],
+        [],
+        ['م', 'رقم الكود', 'الاسم الرباعي (عربي)', 'الاسم الرباعي (إنجليزي)', 'رقم الواتساب', 'حالة الرسوم']
+      ];
+
+      certStudents.forEach((p, idx) => {
+        rows.push([
+          idx + 1,
+          p.id,
+          p.nameAr,
+          p.nameEn,
+          `+${p.whatsapp}`,
+          'خالص الرسوم ومستحق للشهادة'
+        ]);
+      });
+
+      rows.push([]);
+      rows.push([DEV_SIGNATURE]);
+
+      const wb = XLSX.utils.book_new();
+      const ws = XLSX.utils.aoa_to_sheet(rows);
+      ws['!dir'] = 'rtl';
+      ws['!cols'] = Array(6).fill({ wch: 25 });
+      XLSX.utils.book_append_sheet(wb, ws, 'كشف الشهادات');
+      XLSX.writeFile(wb, `حضّرني_كشف_الشهادات_${getTodayISO()}.xlsx`);
+      showToast('تم تصدير ملف الشهادات بنجاح', 'success');
+    }
+
+    function exportFullWorkbookExcel() {
+      const targetEvIds = getEffectiveEventIds();
+      const participants = appState.participants.filter(p => targetEvIds.includes(p.eventId));
+      const logs = appState.attendance.filter(a => targetEvIds.includes(a.eventId));
+
+      const wb = XLSX.utils.book_new();
+
+      const pRows = [
+        [`تطبيق حضّرني | ${TEAM_ROLE_LABEL}`],
+        ['م', 'الكود', 'الاسم بالعربي', 'الاسم بالإنجليزي', 'الهاتف', 'الواتساب', 'يرغب بشهادة', 'المطلوب', 'المدفوع', 'المتبقي'],
+        ...participants.map((p, i) => [
+          i + 1, p.id, p.nameAr, p.nameEn, p.phone, `+${p.whatsapp}`,
+          p.wantsCert ? 'نعم' : 'لا', p.netFee || 0, getParticipantPaid(p), getParticipantRemaining(p)
+        ]),
+        [],
+        [DEV_SIGNATURE]
+      ];
+      const ws1 = XLSX.utils.aoa_to_sheet(pRows);
+      ws1['!dir'] = 'rtl';
+      XLSX.utils.book_append_sheet(wb, ws1, 'المتدربون');
+
+      const aRows = [
+        [`سجل الحضور والانضباط - تطبيق حضّرني | ${TEAM_ROLE_LABEL}`],
+        ['م', 'الكود', 'الاسم', 'التاريخ', 'وقت الدخول'],
+        ...logs.map((l, i) => {
+          const p = appState.participants.find(item => item.id === l.participantId);
+          return [i + 1, l.participantId, p ? p.nameAr : '-', l.date, l.time];
+        }),
+        [],
+        [DEV_SIGNATURE]
+      ];
+      const ws2 = XLSX.utils.aoa_to_sheet(aRows);
+      ws2['!dir'] = 'rtl';
+      XLSX.utils.book_append_sheet(wb, ws2, 'الحضور');
+
+      XLSX.writeFile(wb, `حضّرني_التقرير_الشامل_${getTodayISO()}.xlsx`);
+      showToast('تم تصدير التقرير الشامل بنجاح', 'success');
+    }
+
+    function handleUniversalImport(event) {
+      const file = event.target.files[0];
+      if (!file) return;
+      if (file.name.toLowerCase().endsWith('.json')) {
+        importAndMergeSyncFile(event);
+      } else {
+        importParticipantsFromExcel(event);
+      }
+    }
+
+    function importParticipantsFromExcel(event) {
+      const file = event.target.files[0];
+      if (!file) return;
+      const activeEv = getActiveEvent();
+      if (!activeEv) return;
+
+      const reader = new FileReader();
+      reader.onload = function (e) {
+        try {
+          const wb = XLSX.read(e.target.result, { type: 'array' });
+          const sheet = wb.Sheets[wb.SheetNames[0]];
+          const jsonRows = XLSX.utils.sheet_to_json(sheet, { defval: '' });
+
+          let addedCount = 0;
+          jsonRows.forEach(row => {
+            const nameAr = String(row['الاسم بالعربي'] || row['الاسم الرباعي (عربي)'] || row['الاسم'] || row['NameAr'] || '').trim();
+            const nameEn = String(row['الاسم بالإنجليزي'] || row['الاسم الرباعي (إنجليزي)'] || row['NameEn'] || nameAr).trim();
+            let rawPhone = String(row['الهاتف'] || row['الواتساب'] || row['رقم الهاتف'] || row['Phone'] || '').replace(/[^0-9]/g, '');
+            if (rawPhone.startsWith('967')) rawPhone = rawPhone.slice(3);
+            if (rawPhone.startsWith('0')) rawPhone = rawPhone.slice(1);
+
+            if (nameAr) {
+              const phoneFinal = rawPhone.length === 9 ? rawPhone : '770000000';
+              appState.participants.unshift({
+                id: `NS-${appState.sequenceCounter++}`,
+                eventId: activeEv.id,
+                nameAr,
+                nameEn,
+                phone: phoneFinal,
+                whatsapp: `967${phoneFinal}`,
+                wantsCert: String(row['يرغب بشهادة'] || '').includes('نعم'),
+                notes: 'مستورد من Excel',
+                baseFee: activeEv.category === 'paid' ? (Number(activeEv.fee) || 0) : 0,
+                discountAmount: 0,
+                promoCode: '',
+                netFee: activeEv.category === 'paid' ? (Number(activeEv.fee) || 0) : 0,
+                payments: [],
+                registeredAt: new Date().toISOString()
+              });
+              addedCount++;
+            }
+          });
+
+          saveState();
+          if (currentView === 'registration') renderParticipantsList();
+          showToast(`تم استيراد ${addedCount} متدرب من ملف Excel بنجاح`, 'success');
+        } catch (err) {
+          showToast('تعذر قراءة ملف Excel', 'error');
+        }
+      };
+      reader.readAsArrayBuffer(file);
+      event.target.value = '';
+    }
+
+    function importTrainersFromExcel(event) {
+      const file = event.target.files[0];
+      if (!file) return;
+
+      const reader = new FileReader();
+      reader.onload = function (e) {
+        try {
+          const wb = XLSX.read(e.target.result, { type: 'array' });
+          const sheet = wb.Sheets[wb.SheetNames[0]];
+          const jsonRows = XLSX.utils.sheet_to_json(sheet, { defval: '' });
+
+          let addedCount = 0;
+          jsonRows.forEach(row => {
+            const name = String(row['اسم المدرب'] || row['الاسم'] || row['Name'] || '').trim();
+            const field = String(row['المجال التدريبي'] || row['المجال'] || row['التخصص'] || 'تدريب عام').trim();
+            let rawPhone = String(row['رقم التواصل'] || row['الهاتف'] || row['Phone'] || '').replace(/[^0-9]/g, '');
+            if (rawPhone.startsWith('967')) rawPhone = rawPhone.slice(3);
+
+            if (name) {
+              const phoneFinal = rawPhone.length === 9 ? rawPhone : '770000000';
+              appState.trainers.unshift({
+                id: 'TRN-' + Date.now() + Math.random().toString(36).slice(2, 5),
+                name,
+                field,
+                phone: `967${phoneFinal}`,
+                notes: String(row['ملاحظات'] || 'مستورد من Excel'),
+                createdAt: new Date().toISOString()
+              });
+              addedCount++;
+            }
+          });
+
+          saveState();
+          if (currentView === 'trainers') renderTrainersTable();
+          showToast(`تم استيراد ${addedCount} مدرب لقاعدة البيانات`, 'success');
+        } catch (err) {
+          showToast('تعذر قراءة ملف Excel للمدربين', 'error');
+        }
+      };
+      reader.readAsArrayBuffer(file);
+      event.target.value = '';
+    }
+
+    function downloadSyncBackupFile() {
+      const payload = {
+        app: 'Hadderni - NEW STEP',
+        role: TEAM_ROLE_LABEL,
+        developer: DEV_SIGNATURE,
+        exportedAt: new Date().toISOString(),
+        data: appState
+      };
+      const blob = new Blob([JSON.stringify(payload, null, 2)], { type: 'application/json' });
+      const url = URL.createObjectURL(blob);
+      const a = document.createElement('a');
+      a.href = url;
+      a.download = `Hadderni_Sync_${getTodayISO()}.json`;
+      document.body.appendChild(a);
+      a.click();
+      document.body.removeChild(a);
+      URL.revokeObjectURL(url);
+      showToast('تم تصدير ملف المزامنة، يمكنك إرساله عبر الواتساب الآن', 'success');
+    }
+
+    function importAndMergeSyncFile(event) {
+      const file = event.target.files[0];
+      if (!file) return;
+
+      const reader = new FileReader();
+      reader.onload = function (e) {
+        try {
+          const parsed = JSON.parse(e.target.result);
+          const incoming = parsed.data ? parsed.data : parsed;
+          if (!incoming || !Array.isArray(incoming.events)) {
+            throw new Error('Invalid sync file');
+          }
+
+          const mergeById = (existingArr, newArr) => {
+            const map = new Map(existingArr.map(item => [item.id, item]));
+            (newArr || []).forEach(item => map.set(item.id, item));
+            return Array.from(map.values());
+          };
+
+          appState.events = mergeById(appState.events, incoming.events);
+          appState.participants = mergeById(appState.participants, incoming.participants);
+          appState.attendance = mergeById(appState.attendance, incoming.attendance);
+          appState.promoCodes = mergeById(appState.promoCodes, incoming.promoCodes);
+          appState.handovers = mergeById(appState.handovers, incoming.handovers);
+          appState.sequenceCounter = Math.max(appState.sequenceCounter, incoming.sequenceCounter || 1001);
+
+          saveState();
+          renderHeaderEvents();
+          updateHomeCounters();
+          showToast('تم استيراد ودمج البيانات بنجاح!', 'success');
+        } catch (err) {
+          showToast('ملف المزامنة غير صالح', 'error');
+        }
+      };
+      reader.readAsText(file);
+      event.target.value = '';
+    }
+
+    // -----------------------------------------------------------------------
+    // MODAL & TOAST UTILITIES
+    // -----------------------------------------------------------------------
+    function closeModal(modalId, fromPopState = false) {
+      const modal = document.getElementById(modalId);
+      if (modal && !modal.classList.contains('hidden')) {
+        modal.classList.add('hidden');
+        modal.classList.remove('flex');
+        if (!fromPopState) {
+          try {
+            if (window.history.state && window.history.state.modal === modalId) {
+              window.history.back();
+            }
+          } catch (e) {}
+        }
+      }
+    }
+
+    function showToast(message, type = 'info') {
+      const container = document.getElementById('toast-container');
+      const toast = document.createElement('div');
+      const colors = {
+        success: 'bg-emerald-600 text-white border-emerald-400',
+        error: 'bg-rose-600 text-white border-rose-400',
+        warning: 'bg-amber-500 text-brand-dark border-amber-300',
+        info: 'bg-brand-dark text-white border-brand-sky'
+      };
+      toast.className = `pointer-events-auto px-4 py-3 rounded-2xl shadow-xl border text-xs sm:text-sm font-bold flex items-center justify-between gap-3 transition-all duration-300 ${colors[type] || colors.info}`;
+      toast.innerHTML = `<span>${message}</span>`;
+      container.appendChild(toast);
+      setTimeout(() => {
+        toast.style.opacity = '0';
+        toast.style.transform = 'translateY(-10px)';
+        setTimeout(() => toast.remove(), 300);
+      }, 3200);
+    }
+  </script>
+</body>
+</html>
