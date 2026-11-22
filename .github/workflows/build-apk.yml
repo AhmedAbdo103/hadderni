@@ -26,9 +26,6 @@ jobs:
           distribution: 'temurin'
           java-version: '17'
 
-      - name: Setup Android SDK
-        uses: android-actions/setup-android@v3
-
       - name: Prepare web assets in www/
         run: |
           mkdir -p www
@@ -41,8 +38,12 @@ jobs:
           npx cap init "حضّرني" "com.newstep.hadderni" --web-dir=www
           npx cap add android
 
-      - name: Add Camera permission to AndroidManifest.xml
+      - name: Configure Android SDK and Camera permission
         run: |
+          SDK_DIR="/usr/local/lib/android/sdk"
+          echo "sdk.dir=$SDK_DIR" > android/local.properties
+          yes | "$SDK_DIR/cmdline-tools/latest/bin/sdkmanager" --sdk_root="$SDK_DIR" --licenses >/dev/null 2>&1 || true
+
           python3 -c '
           path = "android/app/src/main/AndroidManifest.xml"
           with open(path, "r", encoding="utf-8") as f:
