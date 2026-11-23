@@ -1,0 +1,27 @@
+{
+  "id": "./",
+  "name": "حضّرني - NEW STEP",
+  "short_name": "حضّرني",
+  "description": "نظام إدارة فعاليات ودورات فريق NEW STEP",
+  "lang": "ar",
+  "dir": "rtl",
+  "start_url": "./",
+  "scope": "./",
+  "display": "standalone",
+  "background_color": "#f3f7f7",
+  "theme_color": "#10313c",
+  "icons": [
+    {
+      "src": "./icons/icon-192.png",
+      "sizes": "192x192",
+      "type": "image/png",
+      "purpose": "any"
+    },
+    {
+      "src": "./icons/icon-512.png",
+      "sizes": "512x512",
+      "type": "image/png",
+      "purpose": "any"
+    }
+  ]
+}
